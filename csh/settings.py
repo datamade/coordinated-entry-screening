@@ -3,10 +3,21 @@ import os
 from .settings_deployment import *
 
 # http://rapidsms.readthedocs.io/en/develop/ref/settings.html#installed-backends
-# Relevant code: https://github.com/rapidsms/rapidsms/tree/develop/rapidsms/backends/database
 INSTALLED_BACKENDS = {
+    # From: https://github.com/rapidsms/rapidsms/tree/develop/rapidsms/backends/database
     'message_tester': {
         'ENGINE': 'rapidsms.backends.database.DatabaseBackend',
+    },
+    # From: https://rapidsms-twilio.readthedocs.io/en/latest/quick-start.html
+    "twilio-backend": {
+        "ENGINE": "rtwilio.outgoing.TwilioBackend",
+        'config': {
+            'account_sid': ACCOUNT_SID, 
+            'auth_token': AUTH_TOKEN,  
+            'number': TWILIO_NUMBER, 
+            # optional callback URL
+            # 'callback': 'http://<public-django-instance>/backend/twilio/status-callback/',
+        }
     },
 }
 
@@ -16,6 +27,7 @@ INSTALLED_APPS = [
     'django_tables2',
     'selectable',
     'decisiontree',
+    'rtwilio',
     # django contrib apps
     'django.contrib.auth',
     'django.contrib.admin',

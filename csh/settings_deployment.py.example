@@ -11,3 +11,7 @@ DATABASES = {
         'PORT': 5432,
     }
 }
+
+ACCOUNT_SID: ''
+AUTH_TOKEN: ''
+TWILIO_NUMBER: ''
