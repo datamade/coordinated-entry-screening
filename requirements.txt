@@ -1,2 +1,4 @@
-RapidSMS==1.0.0
+-e git://github.com/datamade/rapidsms@master#egg=rapidsms
 Django==1.11
+psycopg2==2.7.5
+celery==4.2.1
