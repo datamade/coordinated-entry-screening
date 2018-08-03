@@ -1,0 +1,6 @@
+https://github.com/datamade/rapidsms/zipball/master
+https://github.com/datamade/rapidsms-decisiontree-app/zipball/master
+Django==1.11
+psycopg2==2.7.5
+celery==4.2.1
+rapidsms-twilio==1.0.1
