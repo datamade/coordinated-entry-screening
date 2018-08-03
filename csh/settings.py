@@ -15,6 +15,7 @@ INSTALLED_APPS = [
     # third party apps.
     'django_tables2',
     'selectable',
+    'decisiontree',
     # django contrib apps
     'django.contrib.auth',
     'django.contrib.admin',

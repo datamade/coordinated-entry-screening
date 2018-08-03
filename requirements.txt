@@ -1,4 +1,5 @@
 -e git://github.com/datamade/rapidsms@master#egg=rapidsms
+-e git://github.com/datamade/rapidsms-decisiontree-app@master#egg=rapidsms-decisiontree-app
 Django==1.11
 psycopg2==2.7.5
 celery==4.2.1
