@@ -1,3 +1,5 @@
+import os
+
 from .settings_deployment import *
 
 # http://rapidsms.readthedocs.io/en/develop/ref/settings.html#installed-backends
@@ -43,16 +45,25 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
 ]
 
+RAPIDSMS_HANDLERS = (
+    'rapidsms.contrib.echo.handlers.echo.EchoHandler',
+    'rapidsms.contrib.echo.handlers.ping.PingHandler',
+)
+
 LOGIN_REDIRECT_URL = '/'
 
 STATIC_URL = '/static/'
 
 ROOT_URLCONF = 'csh.urls'
 
+BASE_DIR = os.path.dirname(os.path.dirname(__file__))
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
+        'APP_DIRS': True,
+
         'OPTIONS': {
             'context_processors': [
                 'django.contrib.auth.context_processors.auth',
@@ -64,11 +75,6 @@ TEMPLATES = [
                 'django.contrib.messages.context_processors.messages',
                 'django.template.context_processors.request',
             ],
-            'loaders': [
-                'django.template.loaders.filesystem.Loader',
-                'django.template.loaders.app_directories.Loader',
-                'django.template.loaders.eggs.Loader',
-            ]
         },
     },
 ]
