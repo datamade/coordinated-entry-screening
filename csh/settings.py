@@ -114,3 +114,6 @@ LOGGING = {
         },
     }
 }
+
+# TBD
+# DECISIONTREE_SESSION_END_TRIGGER = 'done'
