@@ -10,3 +10,4 @@ ngrok
 /keyrings/live/pubring.kbx~
 /keyrings/live/secring.gpg
 /configs/coordinated-entry-screening-staging.conf.nginx
+/configs/coordinated-entry-screening-staging.conf.supervisor
