@@ -67,7 +67,7 @@ LOGIN_REDIRECT_URL = '/'
 
 STATIC_URL = '/static/'
 
-ROOT_URLCONF = 'csh.urls'
+ROOT_URLCONF = 'coordinated-entry-screening.urls'
 
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
