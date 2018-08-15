@@ -1,3 +1,4 @@
 configs/coordinated-entry-screening-staging.conf.nginx
 configs/coordinated-entry-screening-staging.conf.supervisor
+scripts/app_start.sh
 scripts/app_stop.sh
