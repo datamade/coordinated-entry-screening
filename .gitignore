@@ -4,3 +4,8 @@ settings_deployment.py
 
 # for testing Twilio webhook
 ngrok
+
+# blackbox
+/keyrings/live/pubring.gpg~
+/keyrings/live/pubring.kbx~
+/keyrings/live/secring.gpg
