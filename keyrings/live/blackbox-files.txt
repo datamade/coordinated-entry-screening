@@ -1,1 +1,2 @@
 configs/coordinated-entry-screening-staging.conf.nginx
+configs/coordinated-entry-screening-staging.conf.supervisor
