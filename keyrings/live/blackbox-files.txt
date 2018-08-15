@@ -1,2 +1,6 @@
 configs/coordinated-entry-screening-staging.conf.nginx
 configs/coordinated-entry-screening-staging.conf.supervisor
+configs/settings_deployment.py
+scripts/after_install.sh
+scripts/app_start.sh
+scripts/app_stop.sh

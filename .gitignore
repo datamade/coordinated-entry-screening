@@ -5,9 +5,16 @@ settings_deployment.py
 # for testing Twilio webhook
 ngrok
 
+# collected static files
+static/**
+
 # blackbox
 /keyrings/live/pubring.gpg~
 /keyrings/live/pubring.kbx~
 /keyrings/live/secring.gpg
 /configs/coordinated-entry-screening-staging.conf.nginx
 /configs/coordinated-entry-screening-staging.conf.supervisor
+/scripts/app_stop.sh
+/scripts/app_start.sh
+/scripts/after_install.sh
+/configs/settings_deployment.py
