@@ -24,9 +24,7 @@ deploy:
   access_key_id: AKIAJNYGDLOJKHOUWCAA
   secret_access_key:
     secure: WdfUg6FjYlhyFwEnhjnxHV5lC7YsmMzZtaxMHlmDaP4WAini9Uzq2NWevTlsm1hiTDTZfpA47rFl7cjqNpgIvltH+lAopZwXS2BkUoolpRbvpLmc6Ni7CVRNIraKOYgE5GDU1OonU854RsCSm/TVIG2I/QVuOACwSxqXUNPYYe2ASKguBvNh/aTqEvtb90C5my7canClv44G5UtJMwI/8oMMG1+jkefG4lNS0VeBJ3Ez3Wv+0k3QD9BMVq4qfHpvZJSdDmlCXhdOG9W15q3R/Lq2j+IIow5a82LfW5WYyCX+reOeModd9APA4ZaM/cMA/dY94xaggIRkybBHBWaJzx27Qbnb6VLM6wTJ+zotE2+U4XQNaNIbG6m/Z7j15RS1j7mI0X3DB4vHwIuJcv/JNlqhEv/JRkjzgtqsXHz9PGeKY1YhC1VqDFy5fTxQKuuHzxi9R94MLU0CqP7j+/tHZygh7s+cuoZB+8edQ+PZLKDXhhPgksBOr6lL+r8TWwEs7SDnlL4/5MmXvETSg9wXX/6Pg4hha34yVmX3XFd3YuyHYMIWSpoMsTF53/MWnILnUJ2vwOgfQQNkiG8WM04BWrvU1jLJrtAVsV3lRwgP55q+cCS2mjrcvNxHeraRnGeF7hYq19Juiv6lVZTt5rSNryL5+qAJpzlxRx/qz4ILamc=
-  bucket: ''
-  key: ''
-  bundle_type: ''
+  revision_type: github
   application: coordinated-entry-screening
   deployment_group: staging
   on:
