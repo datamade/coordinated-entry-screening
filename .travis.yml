@@ -14,6 +14,9 @@ dist: trusty
 group: deprecated-2017Q4
 addons:
   postgresql: '9.4'
+notifications:
+  webhooks:
+    - https://semabot.datamade.us/travis/
 
 before_script:
 - mv configs/test_settings_deployment.py coordinated-entry-screening/settings_deployment.py
