@@ -120,5 +120,4 @@ LOGGING = {
     }
 }
 
-# TBD
-# DECISIONTREE_SESSION_END_TRIGGER = 'done'
+DEFAULT_RESPONSE = "Not a valid message. Type 'start' to begin a survey or 'stop' to unsubscribe from all notifications."
