@@ -35,6 +35,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.staticfiles',
     'django.contrib.contenttypes',
+    'debug_toolbar',
+    'debug_toolbar_line_profiler',
     # rapidsms contrib apps.
     'rapidsms.contrib.handlers',
     'rapidsms.contrib.httptester',
@@ -50,12 +52,18 @@ INSTALLED_APPS = [
     'rapidsms.contrib.default',  # Should be last
 ]
 
+DEBUG_TOOLBAR_PANELS = (
+    'debug_toolbar.panels.redirects.RedirectsPanel', # disable redirects
+    'debug_toolbar_line_profiler.panel.ProfilingPanel',
+)
+
 MIDDLEWARE = [
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
 ]
 
 RAPIDSMS_HANDLERS = (
