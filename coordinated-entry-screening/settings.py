@@ -23,6 +23,7 @@ INSTALLED_BACKENDS = {
 
 INSTALLED_APPS = [
     'rapidsms',
+    'rapidsms.contrib.handlers',
     # third party apps.
     'django_tables2',
     'selectable',
@@ -36,7 +37,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.contenttypes',
     # rapidsms contrib apps.
-    'rapidsms.contrib.handlers',
     'rapidsms.contrib.httptester',
     'rapidsms.contrib.messagelog',
     'rapidsms.contrib.messaging',
@@ -59,6 +59,7 @@ MIDDLEWARE = [
 ]
 
 RAPIDSMS_HANDLERS = (
+    'handlers.namehandler.NameHandler',
     'rapidsms.contrib.echo.handlers.echo.EchoHandler',
     'rapidsms.contrib.echo.handlers.ping.PingHandler',
 )
