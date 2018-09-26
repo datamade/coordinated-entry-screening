@@ -110,11 +110,11 @@ DataMade and the Corporation for Supportive Housing devised question logic to gu
 * What is your age?
 * Where did you sleep last night?
 * Do you have a child or children?
-* Do you have an income, but require short term financial support to help with housing costs, e.g. rent, electric or heating bills, etc.? *(ONLY for 2019)*
+* Do you have an income, but require short term financial support to help with housing costs, e.g. rent, electric or heating bills, etc.? **(ONLY for 2019)**
 * If you slept in the home of a friend or family member or your own home, is it a stable safe place to stay for the forseeable future?
 * If you slept in the home of a friend or family member or your own home, are you attempting to flee because it is an unsafe setting? 
 
-Decision trees located in the `data` folder visualize how users move from question-to-resource-to-question. 
+Decision trees located in the `data` folder visualize how users move from question-to-resource-to-question. We created these using (a free trial of) [LucidChart](https://www.lucidchart.com).
 
 ## Team
 
