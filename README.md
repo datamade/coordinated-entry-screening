@@ -2,6 +2,8 @@
 
 The Coordinated Entry Screening tool helps people experiencing homelessness in Chicago and its surrounding suburbs. The tool guides users through a series of questions to determine eligibility for [Coordinated Entry Access points](https://www.csh.org/chicagoces/) and other resources. Users can complete the survey via text-message or on a web interface. 
 
+Built in collaboration with the [Corporation for Supportive Housing](https://www.csh.org/).
+
 ## Setup
 
 ### Dependencies
@@ -99,6 +101,20 @@ Now, visit Twilio and [find the details about your newly created phone number](h
  as a webhook. The exact URL should correspond with whatever Ngrok spits out in your local terminal. 
 
  The big moment! Send a message to the phone number. The CES trigger word depends on the details of your survey, but for testing purposes, just try "ping." Did the app "pong"?
+
+## The survey
+
+DataMade and the Corporation for Supportive Housing devised question logic to guide users to resources. The basic survey includes these questions:
+
+* Where are you located?
+* What is your age?
+* Where did you sleep last night?
+* Do you have a child or children?
+* Do you have an income, but require short term financial support to help with housing costs, e.g. rent, electric or heating bills, etc.? *(ONLY for 2019)*
+* If you slept in the home of a friend or family member or your own home, is it a stable safe place to stay for the forseeable future?
+* If you slept in the home of a friend or family member or your own home, are you attempting to flee because it is an unsafe setting? 
+
+Decision trees located in the `data` folder visualize how users move from question-to-resource-to-question. 
 
 ## Team
 
