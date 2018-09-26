@@ -16,4 +16,9 @@ ACCOUNT_SID = ''
 AUTH_TOKEN = ''
 TWILIO_NUMBER = ''
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['.ngrok.io', 
+                 '127.0.0.1', 
+                 '.datamade.us']
+
+INTERNAL_IPS = ['.ngrok.io',
+                '127.0.0.1']
