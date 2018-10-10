@@ -6,6 +6,13 @@ from rapidsms import views as rapidsms_views
 admin.autodiscover()
 
 urlpatterns = (
+    # Public-facing views
+    url(r'^', include('ces_client.urls')),
+
+    # Custom admin for CSH staff
+    url(r'^', include('ces_admin.urls')),
+
+    # Django admin
     url(r'^admin/', admin.site.urls),
 
     # RapidSMS core URLs

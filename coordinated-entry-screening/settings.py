@@ -22,6 +22,8 @@ INSTALLED_BACKENDS = {
 }
 
 INSTALLED_APPS = [
+    'ces_client',
+    'ces_admin',
     'rapidsms',
     # third party apps.
     'django_tables2',
