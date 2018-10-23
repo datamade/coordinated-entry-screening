@@ -16,7 +16,7 @@ def ces_login(request):
                 return HttpResponseRedirect(reverse('ces_admin'))
     else:
         form = AuthenticationForm()
-    return render(request, 'ces-login.html', {'form': form})
+    return render(request, 'ces_admin/ces-login.html', {'form': form})
 
 def ces_logout(request):
     logout(request)
@@ -24,4 +24,4 @@ def ces_logout(request):
 
 @login_required(login_url='/ces-login/')
 def ces_admin(request):
-    return render(request, 'ces-admin.html')
+    return render(request, 'ces_admin/ces-admin.html')
