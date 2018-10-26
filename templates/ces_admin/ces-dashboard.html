@@ -63,7 +63,7 @@
     <div class='col-md-12'>
         <h4><span class='badge badge-pill badge-primary'>{{ canceled_sessions | length }}</span> users canceled their session</h4>
         <p>These users instructed the tool to close thier session, for example, by typing "end." This data shows the question on which users closed their sessions.</p>
-        <div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+        <div id="canceled-chart" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
     </div>
 </div>
 
@@ -102,7 +102,7 @@
         barHelper('open-chart' ,open_chart);
 
         canceled_chart = '{{canceled_chart | escapejs}}';
-        barHelper('container', canceled_chart);
+        barHelper('canceled-chart', canceled_chart);
 
     });
 </script>
