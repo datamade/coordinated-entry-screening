@@ -10,6 +10,8 @@ from django.db import connection
 
 from decisiontree.models import Session
 
+from .utils import make_namedtuple
+
 
 def ces_login(request):
     if request.method == 'POST':
@@ -30,21 +32,37 @@ def ces_logout(request):
 @login_required(login_url='/ces-login/')
 def ces_admin(request):
     with connection.cursor() as cursor:
-        query_open_sessions ='''
+        base_query = '''
             SELECT session.start_date, session.last_modified, message.text
             FROM decisiontree_session as session
             JOIN decisiontree_treestate as state
-            ON session.state_id=state.id
+            ON session.{state_type}=state.id
             JOIN decisiontree_message as message
-            ON state.message_id=message.id 
-            WHERE session.canceled is not True
+            ON state.message_id=message.id
+            {where_clause}
         '''
-        
-        cursor.execute(query_open_sessions)
-        fields = cursor.description
-        nt_result = namedtuple('Session', [col[0] for col in fields])
-        open_sessions = [nt_result(*row) for row in cursor.fetchall()]
+
+        # Sessions that are in progress
+        query_open_sessions = base_query.format(state_type='state_id',
+                                                where_clause='WHERE session.state_id is not null')
+        open_sessions = make_namedtuple(cursor, query_open_sessions)
+
+        # Sessions that the user completed, e.g., by answering all questions in the survey
+        query_closed_sessions = base_query.format(state_type='state_at_close_id',
+                                                  where_clause='WHERE session.state_id is null ' +
+                                                               'AND session.canceled=False')
+        closed_sessions = make_namedtuple(cursor, query_closed_sessions)
+
+
+        # Sessions that the user canceled, e.g., by typing "end"
+        query_canceled_sessions = base_query.format(state_type='state_at_close_id',
+                                                    where_clause='WHERE session.state_id is null ' +
+                                                                 'AND session.canceled=True')
+        canceled_sessions = make_namedtuple(cursor, query_canceled_sessions)
+
 
     return render(request, 'ces_admin/ces-dashboard.html', {
-            "open_sessions": open_sessions,
+            'open_sessions': open_sessions,
+            'closed_sessions': closed_sessions,
+            'canceled_sessions': canceled_sessions,
         })

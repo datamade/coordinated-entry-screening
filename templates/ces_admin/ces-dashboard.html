@@ -23,4 +23,46 @@
 </table>
 {% endif %}
 
+{% if closed_sessions %}
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">Start date</th>
+            <th scope="col">Last modified</th>
+            <th scope="col">Text</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for session in closed_sessions %}
+        <tr>
+            <td>{{session.start_date}}</td>
+            <td>{{session.last_modified}}</td>
+            <td>{{session.text}}</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endif %}
+
+{% if canceled_sessions %}
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">Start date</th>
+            <th scope="col">Last modified</th>
+            <th scope="col">Text</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for session in canceled_sessions %}
+        <tr>
+            <td>{{session.start_date}}</td>
+            <td>{{session.last_modified}}</td>
+            <td>{{session.text}}</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endif %}
+
 {% endblock %}
