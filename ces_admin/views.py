@@ -1,4 +1,5 @@
 from collections import namedtuple
+import json
 
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.decorators import login_required
@@ -61,8 +62,26 @@ def ces_admin(request):
         canceled_sessions = make_namedtuple(cursor, query_canceled_sessions)
 
 
+        query_canceled_chart = '''
+            SELECT count(state.name), state.name
+            FROM decisiontree_session as session
+            JOIN decisiontree_treestate as state
+            ON session.state_at_close_id=state.id
+            WHERE session.state_id is null AND session.canceled=True
+            GROUP BY state.name
+        '''
+
+        cursor.execute(query_canceled_chart)
+        data = cursor.fetchall()
+        canceled_chart = [{'name': tup[1], 'y': tup[0]} for tup in data]
+
+        # What do we need to know?
+        # (1) The number of people who finish a session (closed sessions), and the recommended resources
+        # (2) The number of people still in progress and their current state
+        # (3) The number of people who canceled and the question they canceled on
     return render(request, 'ces_admin/ces-dashboard.html', {
             'open_sessions': open_sessions,
             'closed_sessions': closed_sessions,
             'canceled_sessions': canceled_sessions,
+            'canceled_chart': json.dumps(canceled_chart),
         })

@@ -2,6 +2,8 @@
 {% block title %}Dashboard{% endblock %}
 {% block content %}
 
+
+<h2>Open sessions</h2>
 {% if open_sessions %}
 <table class="table">
     <thead>
@@ -23,6 +25,7 @@
 </table>
 {% endif %}
 
+<h2>Closed sessions</h2>
 {% if closed_sessions %}
 <table class="table">
     <thead>
@@ -44,25 +47,49 @@
 </table>
 {% endif %}
 
-{% if canceled_sessions %}
-<table class="table">
-    <thead>
-        <tr>
-            <th scope="col">Start date</th>
-            <th scope="col">Last modified</th>
-            <th scope="col">Text</th>
-        </tr>
-    </thead>
-    <tbody>
-    {% for session in canceled_sessions %}
-        <tr>
-            <td>{{session.start_date}}</td>
-            <td>{{session.last_modified}}</td>
-            <td>{{session.text}}</td>
-        </tr>
-    {% endfor %}
-    </tbody>
-</table>
-{% endif %}
+<h2>Canceled sessions</h2>
+<div class='row'>
+    <div class='col-md-12'>
+        <h4><span class='badge badge-pill badge-primary'>{{ canceled_sessions | length }}</span> users canceled their session</h4>
+        <p>These users instructed the tool to close thier session, for example, by typing "end." This data shows the question on which users closed their sessions.</p>
+        <div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+    </div>
+</div>
+
+<div class='row'>
+    <div class='col-md-12'>
+        {% if canceled_sessions %}
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Start date</th>
+                    <th scope="col">Last modified</th>
+                    <th scope="col">Text</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for session in canceled_sessions %}
+                <tr>
+                    <td>{{session.start_date}}</td>
+                    <td>{{session.last_modified}}</td>
+                    <td>{{session.text}}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        {% endif %}
+    </div>
+</div>
 
 {% endblock %}
+
+{% block extra_javascript %}
+
+<script>
+    $(function() {
+        prepped_data = '{{canceled_chart | escapejs}}';
+        barHelper(prepped_data);
+    });
+</script>
+
+{% endblock extra_javascript %}
