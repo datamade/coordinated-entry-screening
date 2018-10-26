@@ -1,5 +1,5 @@
-function barHelper(prepped_data){
-    Highcharts.chart('container', {
+function barHelper(container, prepped_data){
+    Highcharts.chart(container, {
         chart: {
             type: 'column'
         },

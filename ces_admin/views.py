@@ -43,10 +43,25 @@ def ces_admin(request):
             {where_clause}
         '''
 
+        base_query_chart = '''
+            SELECT count(state.name), state.name
+            FROM decisiontree_session as session
+            JOIN decisiontree_treestate as state
+            ON session.{state_type}=state.id
+            {where_clause}
+            GROUP BY state.name
+        '''
+
         # Sessions that are in progress
         query_open_sessions = base_query.format(state_type='state_id',
                                                 where_clause='WHERE session.state_id is not null')
         open_sessions = make_namedtuple(cursor, query_open_sessions)
+
+        query_chart = base_query_chart.format(state_type='state_id',
+                                                  where_clause='WHERE session.state_id is not null' )
+        cursor.execute(query_chart)
+        data = cursor.fetchall()
+        open_chart = [{'name': tup[1], 'y': tup[0]} for tup in data]
 
         # Sessions that the user completed, e.g., by answering all questions in the survey
         query_closed_sessions = base_query.format(state_type='state_at_close_id',
@@ -55,6 +70,8 @@ def ces_admin(request):
         closed_sessions = make_namedtuple(cursor, query_closed_sessions)
 
 
+        # We need to show the number of people who finish a session (closed sessions), and the recommended resources (as they complete the survey?)
+
         # Sessions that the user canceled, e.g., by typing "end"
         query_canceled_sessions = base_query.format(state_type='state_at_close_id',
                                                     where_clause='WHERE session.state_id is null ' +
@@ -62,26 +79,18 @@ def ces_admin(request):
         canceled_sessions = make_namedtuple(cursor, query_canceled_sessions)
 
 
-        query_canceled_chart = '''
-            SELECT count(state.name), state.name
-            FROM decisiontree_session as session
-            JOIN decisiontree_treestate as state
-            ON session.state_at_close_id=state.id
-            WHERE session.state_id is null AND session.canceled=True
-            GROUP BY state.name
-        '''
+        query_chart = base_query_chart.format(state_type='state_at_close_id',
+                                              where_clause='WHERE session.state_id is null ' +
+                                                           'AND session.canceled=True')
 
-        cursor.execute(query_canceled_chart)
+        cursor.execute(query_chart)
         data = cursor.fetchall()
         canceled_chart = [{'name': tup[1], 'y': tup[0]} for tup in data]
 
-        # What do we need to know?
-        # (1) The number of people who finish a session (closed sessions), and the recommended resources
-        # (2) The number of people still in progress and their current state
-        # (3) The number of people who canceled and the question they canceled on
     return render(request, 'ces_admin/ces-dashboard.html', {
             'open_sessions': open_sessions,
             'closed_sessions': closed_sessions,
             'canceled_sessions': canceled_sessions,
             'canceled_chart': json.dumps(canceled_chart),
+            'open_chart': json.dumps(open_chart)
         })
