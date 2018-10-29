@@ -1,5 +1,6 @@
 from collections import namedtuple
 import json
+import datetime
 
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.decorators import login_required
@@ -8,6 +9,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse
 from django.shortcuts import render
 from django.db import connection
+from django.db.models import Q
 
 from decisiontree.models import Session
 
@@ -34,7 +36,7 @@ def ces_logout(request):
 def ces_admin(request):
     with connection.cursor() as cursor:
         base_query = '''
-            SELECT session.start_date, session.last_modified, message.text
+            SELECT COUNT(session.start_date, session.last_modified, message.text
             FROM decisiontree_session as session
             JOIN decisiontree_treestate as state
             ON session.{state_type}=state.id
@@ -52,45 +54,75 @@ def ces_admin(request):
             GROUP BY state.name
         '''
 
+        one_day = datetime.datetime.now() - datetime.timedelta(days=1)
+
+
         # Sessions that are in progress
-        query_open_sessions = base_query.format(state_type='state_id',
-                                                where_clause='WHERE session.state_id is not null')
-        open_sessions = make_namedtuple(cursor, query_open_sessions)
+        open_sessions = Session.objects.filter(state_id__isnull=False, last_modified__gte=one_day).count()
 
         query_chart = base_query_chart.format(state_type='state_id',
-                                                  where_clause='WHERE session.state_id is not null' )
+                                              where_clause="WHERE session.state_id is not null " +
+                                                           "AND session.last_modified >= (NOW() - INTERVAL '24 hour')")
         cursor.execute(query_chart)
         data = cursor.fetchall()
-        open_chart = [{'name': tup[1], 'y': tup[0]} for tup in data]
-
-        # Sessions that the user completed, e.g., by answering all questions in the survey
-        query_closed_sessions = base_query.format(state_type='state_at_close_id',
-                                                  where_clause='WHERE session.state_id is null ' +
-                                                               'AND session.canceled=False')
-        closed_sessions = make_namedtuple(cursor, query_closed_sessions)
+        open_sessions_chart = [{'name': tup[1], 'y': tup[0]} for tup in data]
 
 
-        # We need to show the number of people who finish a session (closed sessions), and the recommended resources (as they complete the survey?)
 
-        # Sessions that the user canceled, e.g., by typing "end"
-        query_canceled_sessions = base_query.format(state_type='state_at_close_id',
-                                                    where_clause='WHERE session.state_id is null ' +
-                                                                 'AND session.canceled=True')
-        canceled_sessions = make_namedtuple(cursor, query_canceled_sessions)
+        # Sessions that the user either canceled (e.g., by typing "end") or abandoned 24 hours after starting.
+        canceled_sessions = Session.objects.filter(Q(state_id__isnull=True, canceled=True) | Q(state_id__isnull=False, last_modified__lt=one_day)).count()
 
 
         query_chart = base_query_chart.format(state_type='state_at_close_id',
-                                              where_clause='WHERE session.state_id is null ' +
-                                                           'AND session.canceled=True')
+                                              where_clause="WHERE (session.state_id is null " +
+                                                           "AND session.canceled=True) " +
+                                                           "OR (session.state_id is not null " +
+                                                           "AND session.last_modified < (NOW() - INTERVAL '24 hour'))")
 
         cursor.execute(query_chart)
         data = cursor.fetchall()
-        canceled_chart = [{'name': tup[1], 'y': tup[0]} for tup in data]
+        canceled_sessions_chart = [{'name': tup[1], 'y': tup[0]} for tup in data]
+
+
+
+
+        # Sessions that the user completed, e.g., by answering all questions in the survey
+        completed_sessions = Session.objects.filter(state_id__isnull=True, canceled=False).count()
+
+        query_chart = base_query_chart.format(state_type="state_at_close_id",
+                                              where_clause="WHERE session.state_id is null " +
+                                                           "AND session.canceled=False")
+
+
+        cursor.execute(query_chart)
+        data = cursor.fetchall()
+        completed_sessions_chart = [{'name': tup[1], 'y': tup[0]} for tup in data]
+
+        # Recommendations
+        query_chart = '''
+            SELECT count(message.text), message.text 
+            FROM decisiontree_session as session 
+            JOIN decisiontree_entry as entry 
+            ON session.id=entry.session_id 
+            JOIN decisiontree_transition as transition 
+            ON transition.id=entry.transition_id 
+            JOIN decisiontree_treestate as state 
+            ON state.id=transition.next_state_id 
+            JOIN decisiontree_message as message 
+            ON message.id=state.message_id
+            WHERE message.recommendation=True
+            GROUP BY message.text
+        '''
+        cursor.execute(query_chart)
+        data = cursor.fetchall()
+        resources_chart = [{'name': tup[1], 'y': tup[0]} for tup in data]
 
     return render(request, 'ces_admin/ces-dashboard.html', {
             'open_sessions': open_sessions,
-            'closed_sessions': closed_sessions,
+            'open_sessions_chart': json.dumps(open_sessions_chart),
             'canceled_sessions': canceled_sessions,
-            'canceled_chart': json.dumps(canceled_chart),
-            'open_chart': json.dumps(open_chart)
+            'canceled_sessions_chart': json.dumps(canceled_sessions_chart),
+            'completed_sessions': completed_sessions,
+            'completed_sessions_chart': json.dumps(completed_sessions_chart),
+            'resources_chart': json.dumps(resources_chart),
         })

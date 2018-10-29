@@ -6,91 +6,42 @@
 <h2>Open sessions</h2>
 <div class='row'>
     <div class='col-md-12'>
-        <h4><span class='badge badge-pill badge-primary'>{{ open_sessions | length }}</span> users have open sessions</h4>
-        <p>These users are currently completing a survey.</p>
+        <h4><span class='badge badge-pill badge-primary'>{{ open_sessions }}</span> users have open sessions</h4>
+        <p>These users started a survey in the last 24 hours.</p>
         <div id="open-chart" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
     </div>
 </div>
-{% if open_sessions %}
-<table class="table">
-    <thead>
-        <tr>
-            <th scope="col">Start date</th>
-            <th scope="col">Last modified</th>
-            <th scope="col">Text</th>
-        </tr>
-    </thead>
-    <tbody>
-    {% for session in open_sessions %}
-        <tr>
-            <td>{{session.start_date}}</td>
-            <td>{{session.last_modified}}</td>
-            <td>{{session.text}}</td>
-        </tr>
-    {% endfor %}
-    </tbody>
-</table>
-{% endif %}
-
-
-
-<h2>Closed sessions</h2>
-{% if closed_sessions %}
-<table class="table">
-    <thead>
-        <tr>
-            <th scope="col">Start date</th>
-            <th scope="col">Last modified</th>
-            <th scope="col">Text</th>
-        </tr>
-    </thead>
-    <tbody>
-    {% for session in closed_sessions %}
-        <tr>
-            <td>{{session.start_date}}</td>
-            <td>{{session.last_modified}}</td>
-            <td>{{session.text}}</td>
-        </tr>
-    {% endfor %}
-    </tbody>
-</table>
-{% endif %}
-
-
 
 <h2>Canceled sessions</h2>
 <div class='row'>
     <div class='col-md-12'>
-        <h4><span class='badge badge-pill badge-primary'>{{ canceled_sessions | length }}</span> users canceled their session</h4>
-        <p>These users instructed the tool to close thier session, for example, by typing "end." This data shows the question on which users closed their sessions.</p>
+        <h4><span class='badge badge-pill badge-primary'>{{ canceled_sessions }}</span> users canceled their session</h4>
+        <p>These users canceled their session, either by instructing the tool to close thier session (e.g. by typing "end") or by abandoning their session after 24 hours. This chart shows the question or resource on which users canceled their sessions.</p>
         <div id="canceled-chart" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
     </div>
 </div>
 
+<h2>Completed sessions</h2>
 <div class='row'>
     <div class='col-md-12'>
-        {% if canceled_sessions %}
-        <table class="table">
-            <thead>
-                <tr>
-                    <th scope="col">Start date</th>
-                    <th scope="col">Last modified</th>
-                    <th scope="col">Text</th>
-                </tr>
-            </thead>
-            <tbody>
-            {% for session in canceled_sessions %}
-                <tr>
-                    <td>{{session.start_date}}</td>
-                    <td>{{session.last_modified}}</td>
-                    <td>{{session.text}}</td>
-                </tr>
-            {% endfor %}
-            </tbody>
-        </table>
-        {% endif %}
+        <h4><span class='badge badge-pill badge-primary'>{{ completed_sessions }}</span> users completed their session</h4>
+        <p>These users completed the entire survey! This chart shows the last resource recommended to the user.</p>
+        <div id="completed-chart" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
     </div>
 </div>
+
+<hr>
+
+<h2>Recommended Resources</h2>
+<div class='row'>
+    <div class='col-md-12'>
+        <p>This chart shows the total number of times each resource has been recommended.</p>
+        <div id="resources-chart" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+    </div>
+</div>
+
+
+
 
 {% endblock %}
 
@@ -98,11 +49,17 @@
 
 <script>
     $(function() {
-        open_chart = '{{open_chart | escapejs}}'
-        barHelper('open-chart' ,open_chart);
+        open_sessions_chart = '{{open_sessions_chart | escapejs}}'
+        barHelper('open-chart', open_sessions_chart);
 
-        canceled_chart = '{{canceled_chart | escapejs}}';
-        barHelper('canceled-chart', canceled_chart);
+        canceled_sessions_chart = '{{canceled_sessions_chart | escapejs}}';
+        barHelper('canceled-chart', canceled_sessions_chart);
+
+        completed_sessions_chart = '{{completed_sessions_chart | escapejs}}';
+        barHelper('completed-chart', completed_sessions_chart);
+
+        resources_chart = '{{resources_chart | escapejs}}';
+        barHelper('resources-chart', resources_chart);
 
     });
 </script>
