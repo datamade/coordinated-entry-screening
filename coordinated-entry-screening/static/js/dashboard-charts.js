@@ -1,7 +1,7 @@
 function barHelper(container, prepped_data){
     Highcharts.chart(container, {
         chart: {
-            type: 'column'
+            type: 'bar'
         },
         title: {
             text: null

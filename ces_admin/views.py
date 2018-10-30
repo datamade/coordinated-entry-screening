@@ -36,60 +36,49 @@ def ces_logout(request):
 def ces_admin(request):
     with connection.cursor() as cursor:
         base_query = '''
-            SELECT COUNT(session.start_date, session.last_modified, message.text
-            FROM decisiontree_session as session
-            JOIN decisiontree_treestate as state
-            ON session.{state_type}=state.id
-            JOIN decisiontree_message as message
-            ON state.message_id=message.id
-            {where_clause}
-        '''
-
-        base_query_chart = '''
-            SELECT count(state.name), state.name
+            SELECT count(state.name) as count, state.name
             FROM decisiontree_session as session
             JOIN decisiontree_treestate as state
             ON session.{state_type}=state.id
             {where_clause}
             GROUP BY state.name
+            ORDER BY count DESC
         '''
 
-        one_day = datetime.datetime.now() - datetime.timedelta(days=1)
+        one_day_ago = datetime.datetime.now() - datetime.timedelta(days=1)
 
 
         # Sessions that are in progress
-        open_sessions = Session.objects.filter(state_id__isnull=False, last_modified__gte=one_day).count()
+        open_sessions = Session.objects.filter(state_id__isnull=False, last_modified__gte=one_day_ago).count()
 
-        query_chart = base_query_chart.format(state_type='state_id',
-                                              where_clause="WHERE session.state_id is not null " +
-                                                           "AND session.last_modified >= (NOW() - INTERVAL '24 hour')")
+        query_chart = base_query.format(state_type='state_id',
+                                        where_clause="WHERE session.state_id is not null " +
+                                                     "AND session.last_modified >= (NOW() - INTERVAL '24 hour')")
         cursor.execute(query_chart)
         data = cursor.fetchall()
         open_sessions_chart = [{'name': tup[1], 'y': tup[0]} for tup in data]
 
-
-
         # Sessions that the user either canceled (e.g., by typing "end") or abandoned 24 hours after starting.
-        canceled_sessions = Session.objects.filter(Q(state_id__isnull=True, canceled=True) | Q(state_id__isnull=False, last_modified__lt=one_day)).count()
+        canceled_sessions = Session.objects.filter(Q(state_id__isnull=True, canceled=True) | Q(state_id__isnull=False, last_modified__lt=one_day_ago)).count()
 
-
-        query_chart = base_query_chart.format(state_type='state_at_close_id',
-                                              where_clause="WHERE (session.state_id is null " +
-                                                           "AND session.canceled=True) " +
-                                                           "OR (session.state_id is not null " +
-                                                           "AND session.last_modified < (NOW() - INTERVAL '24 hour'))")
+        query_chart = base_query.format(state_type='state_at_close_id',
+                                        where_clause="WHERE (session.state_id is null " +
+                                                     "AND session.canceled=True) " +
+                                                     "OR (session.state_id is not null " +
+                                                     "AND session.last_modified < (NOW() - INTERVAL '24 hour'))")
 
         cursor.execute(query_chart)
         data = cursor.fetchall()
+
+        # import pdb
+        # pdb.set_trace()
         canceled_sessions_chart = [{'name': tup[1], 'y': tup[0]} for tup in data]
-
-
 
 
         # Sessions that the user completed, e.g., by answering all questions in the survey
         completed_sessions = Session.objects.filter(state_id__isnull=True, canceled=False).count()
 
-        query_chart = base_query_chart.format(state_type="state_at_close_id",
+        query_chart = base_query.format(state_type="state_at_close_id",
                                               where_clause="WHERE session.state_id is null " +
                                                            "AND session.canceled=False")
 
@@ -100,7 +89,7 @@ def ces_admin(request):
 
         # Recommendations
         query_chart = '''
-            SELECT count(message.text), message.text 
+            SELECT count(message.text) as count, message.text 
             FROM decisiontree_session as session 
             JOIN decisiontree_entry as entry 
             ON session.id=entry.session_id 
@@ -112,6 +101,7 @@ def ces_admin(request):
             ON message.id=state.message_id
             WHERE message.recommendation=True
             GROUP BY message.text
+            ORDER BY count DESC
         '''
         cursor.execute(query_chart)
         data = cursor.fetchall()
