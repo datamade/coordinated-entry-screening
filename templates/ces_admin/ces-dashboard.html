@@ -2,7 +2,6 @@
 {% block title %}Dashboard{% endblock %}
 {% block content %}
 
-
 <div class='row'>
     <div class='col-md-10 offset-md-1'>
         <div class='row mt-4'>
@@ -10,7 +9,9 @@
                 <h2>Open sessions</h2>
                 <h4><span class='badge badge-pill badge-primary'>{{ open_sessions }}</span> users have open sessions</h4>
                 <p>These users started a survey in the last 24 hours.</p>
-                <div id="open-chart" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+                {% if open_sessions %}
+                    <div id="open-chart" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+                {% endif %}
             </div>
         </div>
         <div class='row mt-4'>
@@ -25,7 +26,7 @@
             <div class='col-md-12'>
                 <h2>Completed sessions</h2>
                 <h4><span class='badge badge-pill badge-primary'>{{ completed_sessions }}</span> users completed their session</h4>
-                <p>These users completed the entire survey! This chart shows the last resource recommended to the user.</p>
+                <p>These users completed the entire survey! This chart shows the last message or resource sent to the user.</p>
                 <div id="completed-chart" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
             </div>
         </div>
@@ -47,7 +48,9 @@
     $(function() {
         open_sessions_chart = JSON.parse('{{open_sessions_chart | escapejs}}');
         open_sessions_map = JSON.parse('{{open_sessions_map | escapejs}}');
-        barHelper('open-chart', open_sessions_chart, open_sessions_map);
+        if (open_sessions_chart.length != 0) {
+            barHelper('open-chart', open_sessions_chart, open_sessions_map);
+        }
 
         canceled_sessions_chart = JSON.parse('{{canceled_sessions_chart | escapejs}}');
         canceled_sessions_map = JSON.parse('{{canceled_sessions_map | escapejs}}');
