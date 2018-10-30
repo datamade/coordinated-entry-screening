@@ -1,9 +1,11 @@
 from django.conf.urls import url
+from django.contrib.auth.decorators import login_required
 
-from . import views
+from ces_admin.views import ces_login, ces_logout
+from ces_admin.views import DashboardView
 
 urlpatterns = [
-    url(r'^ces-login/$', views.ces_login, name='ces_login'),
-    url(r'^ces-logout/$', views.ces_logout, name='ces_logout'),
-    url(r'^ces-admin/$', views.ces_admin, name='ces_admin'),
+    url(r'^ces-login/$', ces_login, name='ces_login'),
+    url(r'^ces-logout/$', ces_logout, name='ces_logout'),
+    url(r'^dashboard/$', login_required(DashboardView.as_view(), login_url='/ces-login/'), name='dashboard'),
 ]
