@@ -1,4 +1,4 @@
-function barHelper(container, prepped_data){
+function barHelper(container, prepped_data, data_map){
     Highcharts.chart(container, {
         chart: {
             type: 'bar'
@@ -10,13 +10,18 @@ function barHelper(container, prepped_data){
             text: null
         },
         xAxis: {
-            type: 'category'
+            type: 'category',
+            labels: {
+                formatter: function () {
+                   return data_map[this.value];
+                },
+            },
         },
         yAxis: {
             title: {
                 text: 'Number of users'
-            }
-
+            },
+            allowDecimals: false
         },
         legend: {
             enabled: false
@@ -24,23 +29,25 @@ function barHelper(container, prepped_data){
         plotOptions: {
             series: {
                 borderWidth: 0,
-                dataLabels: {
-                    enabled: true,
-                    format: '{point.y:.1f}%'
-                }
             }
         },
-
         tooltip: {
-            headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
-            pointFormat: '<span style="color:{point.color}">{point.name}</span>: <b>{point.y:.2f}%</b> of total<br/>'
+            backgroundColor: 'rgba(236, 240, 241, .85)',
+            style: {
+                color: '#3B4B5C',
+            },
+            useHTML: true,
+            headerFormat: '',
+            pointFormat:  '<h6><strong>{point.y} users</strong></h6><hr><p>{point.name}</p>',
+            shared: true,
+            shadow: false,
+            borderColor: '#3B4B5C'
         },
-
-        "series": [
+        series: [
             {
                 "name": "Number of users",
                 "colorByPoint": true,
-                "data": JSON.parse(prepped_data)
+                "data": prepped_data
             }
         ]
     });
