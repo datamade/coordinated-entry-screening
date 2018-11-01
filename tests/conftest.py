@@ -14,19 +14,44 @@ def db_setup(db, session):
     '''
     Populate the database with one open, canceled, and completed session.
     '''
-    open_session = {
-        'last_modified': (datetime.now() - timedelta(hours=5)),
-    }
-
-    session.build(**open_session)
+    session.build() # Default session fixture creates an on open session
 
     canceled_session = {
         'canceled': True,
         'state_id': None,
     }
-
     session.build(**canceled_session)
 
+    completed_session = {
+        'canceled': False,
+        'state_id': None,
+    }
+    session.build(**completed_session)
+
+@pytest.fixture
+@pytest.mark.django_db
+def session(db, tree_state, connection, tree):
+    class SessionFactory():
+        def build(self, **kwargs):
+            '''
+            This creates an "open" session.
+            '''
+            session_info = {
+                'id': randrange(1000000),
+                'last_modified': (datetime.now() - timedelta(hours=5)), 
+                'state_id': tree_state.id,
+                'tree_id': tree.id,
+                'num_tries': 0,
+                'connection_id': connection.id,
+            }
+
+            session_info.update(**kwargs)
+
+            session = Session.objects.create(**session_info)
+
+            return session 
+
+    return SessionFactory()
 
 @pytest.fixture
 @pytest.mark.django_db
@@ -45,7 +70,6 @@ def message(db):
     }
 
     message = Message.objects.create(**message_info)
-    message.save()
 
     return message
 
@@ -59,7 +83,6 @@ def tree_state(db, message):
     }
 
     state = TreeState.objects.create(**state_info)
-    state.save()
 
     return state
 
@@ -74,7 +97,6 @@ def tree(db, tree_state):
     }
 
     tree = Tree.objects.create(**tree_info)
-    tree.save()
 
     return tree
 
@@ -90,29 +112,5 @@ def connection(db, message):
     }
 
     connection = Connection.objects.create(**connection_info)
-    connection.save()
 
     return connection
-
-@pytest.fixture
-@pytest.mark.django_db
-def session(db, tree_state, connection, tree):
-    class SessionFactory():
-        def build(self, **kwargs):
-            session_info = {
-                'id': randrange(1000000),
-                'last_modified': '2018-10-26 13:14:29.629877-05', 
-                'state_id': tree_state.id,
-                'tree_id': tree.id,
-                'num_tries': 0,
-                'connection_id': connection.id,
-            }
-
-            session_info.update(**kwargs)
-
-            session = Session.objects.create(**session_info)
-            session.save()
-
-            return session 
-
-    return SessionFactory()
