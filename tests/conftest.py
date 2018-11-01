@@ -14,6 +14,18 @@ def db_setup(db, session):
     '''
     Populate the database with one open, canceled, and completed session.
     '''
+    open_session = {
+        'last_modified': (datetime.now() - timedelta(hours=5)),
+    }
+
+    session.build(**open_session)
+
+    canceled_session = {
+        'canceled': True,
+        'state_id': None,
+    }
+
+    session.build(**canceled_session)
 
 
 @pytest.fixture
@@ -89,8 +101,7 @@ def session(db, tree_state, connection, tree):
         def build(self, **kwargs):
             session_info = {
                 'id': randrange(1000000),
-                # for an open session
-                'last_modified': (datetime.now() - timedelta(hours=5)), 
+                'last_modified': '2018-10-26 13:14:29.629877-05', 
                 'state_id': tree_state.id,
                 'tree_id': tree.id,
                 'num_tries': 0,
