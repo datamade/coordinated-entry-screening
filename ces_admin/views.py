@@ -48,7 +48,7 @@ class DashboardContextMixin(object):
 
     one_day_ago = datetime.datetime.now() - datetime.timedelta(days=1)
 
-    def get_context_sessions_in_progress(self):
+    def sessions_in_progress(self):
         '''
         This function gets context data for sessions that are "in progress," 
         i.e., not canceled, not completed, and opened in the last 24 hours.
@@ -68,7 +68,7 @@ class DashboardContextMixin(object):
 
         return context
 
-    def get_context_canceled_sessions(self):
+    def canceled_sessions(self):
         '''
         This function gets context data for sessions that the user either canceled (e.g., by typing "end") 
         or abandoned 24 hours after starting.
@@ -90,7 +90,7 @@ class DashboardContextMixin(object):
 
         return context
 
-    def get_context_completed_sessions(self):
+    def completed_sessions(self):
         '''
         This function gets context data for sessions that the user completed 
         by answering all relevant questions in the survey
@@ -110,23 +110,13 @@ class DashboardContextMixin(object):
 
         return context
 
-class DashboardView(DashboardContextMixin, TemplateView):
-    template_name = 'ces_admin/ces-dashboard.html'
-    
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        
-        context_for_sessions = self.get_context_sessions_in_progress()
-        context.update(context_for_sessions)
-
-        context_for_sessions = self.get_context_canceled_sessions()
-        context.update(context_for_sessions)
-
-        context_for_sessions = self.get_context_completed_sessions()
-        context.update(context_for_sessions)
+    def recommendations(self):
+        '''
+        This function returns data for the all resources recommended (regardless of session type). 
+        '''
+        context = {}
 
         with connection.cursor() as cursor:
-            # Recommendations
             query_for_recommendation_chart = '''
                 SELECT message.text, count(message.text) as count, state.name 
                 FROM decisiontree_session as session 
@@ -144,6 +134,19 @@ class DashboardView(DashboardContextMixin, TemplateView):
             '''
             resources_chart, resources_map = prepare_data(cursor, query_for_recommendation_chart)
             context['resources_chart'] = resources_chart
-            context['resources_map'] = resources_map           
+            context['resources_map'] = resources_map 
+
+        return context
+
+class DashboardView(DashboardContextMixin, TemplateView):
+    template_name = 'ces_admin/ces-dashboard.html'
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        
+        context.update(self.sessions_in_progress())
+        context.update(self.canceled_sessions())
+        context.update(self.completed_sessions()) 
+        context.update(self.recommendations())        
 
         return context
