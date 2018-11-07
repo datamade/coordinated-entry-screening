@@ -20,7 +20,7 @@ notifications:
 
 before_script:
 - mv configs/test_settings_deployment.py coordinated-entry-screening/settings_deployment.py
-script: python manage.py migrate
+script: python manage.py migrate && pytest
 
 deploy:
   provider: codedeploy
