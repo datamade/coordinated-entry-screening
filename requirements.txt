@@ -5,3 +5,4 @@ Django==1.11
 psycopg2==2.7.5
 celery==4.2.1
 gunicorn==19.6.0
+pytest-django==3.4.3
