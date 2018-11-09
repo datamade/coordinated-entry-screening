@@ -2,7 +2,12 @@
 {% block title %}Index{% endblock %}
 {% block content %}
 
+<p>{{ message_from_ben }}</p>
 
-helloo!
+<form action="/" method="post">
+    {% csrf_token %}
+    {{ form }}
+    <input type="submit" value="Submit">
+</form>
 
 {% endblock %}

@@ -1,49 +1,52 @@
-import datetime
-import logging
-import re
-
-from django.http import HttpResponse
 from django.shortcuts import render
-from django.utils.translation import ugettext as _
 from django.views import View
 
-from rapidsms.apps.base import AppBase
-from rapidsms.messages import OutgoingMessage, IncomingMessage
 from rapidsms.messages.incoming import IncomingMessage
-from rapidsms.models import Connection
+from rapidsms.models import Connection, Backend
+from rapidsms.tests.harness import MockRouter
 
 from decisiontree import conf
-from decisiontree.models import Entry, Session, TagNotification, Transition
-from decisiontree.signals import session_end_signal
-from decisiontree.utils import get_survey
+from decisiontree.models import Session 
 from decisiontree.app import App
 
+from .forms import ResponseForm
 
-logger = logging.getLogger(__name__)
 
 class IndexView(View):
     template_name = "ces_client/index.html"
     registered_functions = {}
     session_listeners = {}
+    backend, _ = Backend.objects.get_or_create(name='fake-backend')
+    decision_app = App(router=MockRouter())
 
     def get(self, request, *args, **kwargs):
-        # A valid IncomingMessage needs: (1) text, and (2) a connection.
-        # A connection needs: contact=self.contact, backend=self.backend, identity='1112223333'.
-        from rapidsms.models import Connection
-        connection = Connection(identity='web-interface')
-        # The message text will be whatever the user submits via a form.
-        msg = IncomingMessage(text='start', connection=connection)
+        # Delete the session key, if the user refreshes the page.
+        request.session.flush()
+        request.session.cycle_key()
 
-        # Do we need a real router?
-        from rapidsms.tests.harness import MockRouter
-        decision_app = App(router=MockRouter())
-
-        # What happens after calling `handle`? This function returns True or False,
-        # after processing the message. How can we get the response text?
-        decision_app.handle(msg)
-
-        return render(request, self.template_name)
+        return render(request, self.template_name, {'form': form})
 
     def post(self, request, *args, **kwargs):
+        identity = 'web-{}'.format(request.session.session_key)
+        connection, _ = Connection.objects.get_or_create(identity=identity, backend=self.backend)
 
-        return render(request, self.template_name)
+        form = ResponseForm(request.POST)
+        message_from_ben = None
+
+        if form.is_valid():
+            response = form.cleaned_data['response']
+            msg = IncomingMessage(text=response, connection=connection)
+
+            self.decision_app.handle(msg)
+
+            sessions = msg.connection.session_set.all().select_related('state')
+            session = sessions.latest('start_date')
+            state = session.state 
+            if not state:
+                state = session.state_at_close 
+
+            message_from_ben = state.message.text
+
+        return render(request, self.template_name, {'form': form, 
+                                                    'message_from_ben': message_from_ben
+                                                    })
