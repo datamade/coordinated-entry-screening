@@ -86,3 +86,5 @@ TEMPLATES = [
         },
     },
 ]
+
+INSTALLED_BACKENDS = {}
