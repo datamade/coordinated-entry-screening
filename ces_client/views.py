@@ -40,16 +40,18 @@ class IndexView(View):
             response = form.cleaned_data['response']
             msg = IncomingMessage(text=response, connection=connection)
 
-            decision_app.handle(msg)
+            # The app evaluates to True (if it can send a message), or False (if it does not).
+            # If False, then the user did not enter valid input, i.e., a trigger word or a pre-defined answer.
+            if decision_app.handle(msg):
+                sessions = msg.connection.session_set.all().select_related('state')
+                session = sessions.latest('start_date')
+                state = session.state 
+                if not state:
+                    state = session.state_at_close 
 
-            sessions = msg.connection.session_set.all().select_related('state')
-            session = sessions.latest('start_date')
-            state = session.state 
-            if not state:
-                state = session.state_at_close 
-
-            message_from_ben = state.message.text
+                message_from_ben = decision_app._concat_answers(state.message.text, state)
+            else:
+                message_from_ben = 'I am sorry. I do not understand.'
 
         return render(request, self.template_name, {'form': form, 
-                                                    'message_from_ben': message_from_ben
-                                                    })
+                                                    'message_from_ben': message_from_ben})
