@@ -16,7 +16,6 @@ class IndexView(View):
     template_name = "ces_client/index.html"
     registered_functions = {}
     session_listeners = {}
-    backend, _ = Backend.objects.get_or_create(name='fake-backend')
     decision_app = App(router=MockRouter())
 
     def get(self, request, *args, **kwargs):
@@ -24,11 +23,14 @@ class IndexView(View):
         request.session.flush()
         request.session.cycle_key()
 
+        form = ResponseForm()
+
         return render(request, self.template_name, {'form': form})
 
     def post(self, request, *args, **kwargs):
+        backend, _ = Backend.objects.get_or_create(name='fake-backend')
         identity = 'web-{}'.format(request.session.session_key)
-        connection, _ = Connection.objects.get_or_create(identity=identity, backend=self.backend)
+        connection, _ = Connection.objects.get_or_create(identity=identity, backend=backend)
 
         form = ResponseForm(request.POST)
         message_from_ben = None
