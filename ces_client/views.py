@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.views import View
+from django.test.utils import override_settings
 
 from rapidsms.messages.incoming import IncomingMessage
 from rapidsms.models import Connection, Backend
@@ -16,7 +17,6 @@ class IndexView(View):
     template_name = "ces_client/index.html"
     registered_functions = {}
     session_listeners = {}
-    decision_app = App(router=MockRouter())
 
     def get(self, request, *args, **kwargs):
         # Delete the session key, if the user refreshes the page.
@@ -28,6 +28,7 @@ class IndexView(View):
         return render(request, self.template_name, {'form': form})
 
     def post(self, request, *args, **kwargs):
+        decision_app = App(router=MockRouter())
         backend, _ = Backend.objects.get_or_create(name='fake-backend')
         identity = 'web-{}'.format(request.session.session_key)
         connection, _ = Connection.objects.get_or_create(identity=identity, backend=backend)
@@ -39,7 +40,7 @@ class IndexView(View):
             response = form.cleaned_data['response']
             msg = IncomingMessage(text=response, connection=connection)
 
-            self.decision_app.handle(msg)
+            decision_app.handle(msg)
 
             sessions = msg.connection.session_set.all().select_related('state')
             session = sessions.latest('start_date')

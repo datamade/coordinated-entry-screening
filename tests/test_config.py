@@ -2,6 +2,10 @@ import os
 
 SECRET_KEY = 'test test test'
 
+ACCOUNT_SID = ''
+AUTH_TOKEN = ''
+TWILIO_NUMBER = ''
+
 INSTALLED_APPS = [
     'ces_client',
     'ces_admin',
