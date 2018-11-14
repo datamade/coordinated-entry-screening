@@ -1,15 +1,53 @@
 {% extends "base.html" %}
+{% load static %}
 {% block title %}Index{% endblock %}
-{% block content %}
 
+{% block content %}  
+    
+<div class="chatbox">
+    <div class="chatlogs">
+        <div class="chat friend">
+            <div class="user-photo"><img src="Images/ana.JPG"></div>
+            <p class="chat-message">Hello!</p>
+        </div>
 
+        <div class="chat friend" id="loadingGif" style="display: none;">
+            <div class="user-photo"><img src="Images/ana.JPG"></div>
+            <div class="gif"><img src="Images/loading.gif"></div>
+        </div>
 
-<p>{{ message_from_ben }}</p>
+    </div>            
+</div>
+<div class="chat-form">
+    <div id="inputDiv">
+        <div id="buttonDiv"></div>
+        <textarea class="input" placeholder="Message" rows="1" data-min-rows='1'></textarea>
+    </div>
+    <div id="chat-form-buttons">
+        <input type ="image"id="rec" src="Images/microphone.png">
+        <input type="image" src="Images/keyboard.png" id="switchInputType"/>
+    </div>
+</div>
 
-<form action="/" method="post">
-    {% csrf_token %}
-    {{ form }}
-    <input type="submit" value="Submit">
-</form>
+{% endblock %}
 
+{% block extra_javascript %}
+<script src="{% static "js/chatbot.js" %}" type="text/javascript"></script>
+<script src="{% static "js/js.cookie.js" %}" type="text/javascript"></script>
+<script type="text/javascript">
+    // Boilerplate code from Django documentation
+    // https://docs.djangoproject.com/en/1.11/ref/csrf/#acquiring-the-token-if-csrf-use-sessions-is-false
+    // https://docs.djangoproject.com/en/1.11/ref/csrf/#setting-the-token-on-the-ajax-request
+    var csrftoken = Cookies.get('csrftoken');
+    function csrfSafeMethod(method) {
+        return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+    }
+    $.ajaxSetup({
+        beforeSend: function(xhr, settings) {
+            if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                xhr.setRequestHeader("X-CSRFToken", csrftoken);
+            }
+        }
+    });
+</script>
 {% endblock %}
