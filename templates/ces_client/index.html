@@ -2,37 +2,29 @@
 {% load static %}
 {% block title %}Index{% endblock %}
 
+{% block extra_css %}
+    <link rel="stylesheet" href="https://unpkg.com/botui/build/botui.min.css" />
+    <link rel="stylesheet" href="https://unpkg.com/botui/build/botui-theme-default.css" />
+{% endblock %}
+
 {% block content %}  
-    
-<div class="chatbox">
-    <div class="chatlogs">
-        <div class="chat friend">
-            <div class="user-photo"><img src="Images/ana.JPG"></div>
-            <p class="chat-message">Hello!</p>
-        </div>
 
-        <div class="chat friend" id="loadingGif" style="display: none;">
-            <div class="user-photo"><img src="Images/ana.JPG"></div>
-            <div class="gif"><img src="Images/loading.gif"></div>
-        </div>
-
-    </div>            
+<div id="my-botui-app">
+  <bot-ui></bot-ui>
 </div>
-<div class="chat-form">
-    <div id="inputDiv">
-        <div id="buttonDiv"></div>
-        <textarea class="input" placeholder="Message" rows="1" data-min-rows='1'></textarea>
-    </div>
-    <div id="chat-form-buttons">
-        <input type ="image"id="rec" src="Images/microphone.png">
-        <input type="image" src="Images/keyboard.png" id="switchInputType"/>
-    </div>
+
+<div >
+    <div></div>
+    <textarea class="input"></textarea>
 </div>
 
 {% endblock %}
 
 {% block extra_javascript %}
-<script src="{% static "js/chatbot.js" %}" type="text/javascript"></script>
+<script src="https://cdn.jsdelivr.net/vue/latest/vue.min.js" type="text/javascript"></script>
+<script src="https://unpkg.com/botui/build/botui.min.js" type="text/javascript"></script>
+
+<!-- <script src="{# static "js/chatbot.js" %}" type="text/javascript"></script> -->
 <script src="{% static "js/js.cookie.js" %}" type="text/javascript"></script>
 <script type="text/javascript">
     // Boilerplate code from Django documentation
@@ -49,5 +41,50 @@
             }
         }
     });
+
+
+$('document').ready(function(){
+    var botui = new BotUI('my-botui-app');
+
+    botui.message.add({
+      content: 'Hello! Ready to get started? Type "start."'
+    });
+
+    $("textarea").keypress(function(event) {
+        // If the enter key is pressed
+        if(event.which === 13) {
+          // Ignore the default function of the enter key (Dont go to a new line)
+          event.preventDefault();
+          $user_input = this.value
+          $.ajax({
+              type: "POST",
+              url: "/",
+              data : { user_input: $user_input },
+
+              success : function(data) {
+                  botui.message.add({
+                      human: true,
+                      content: $user_input       
+                  }).then(function () { 
+
+                    botui.message.add({
+                      delay: 2000,
+                      content: data.text
+                    });
+
+                  });
+
+              },
+
+              error: function() {
+                newRecievedMessage("Internal Server Error");
+              }
+          });
+        }
+
+    });
+
+});
+
 </script>
 {% endblock %}
