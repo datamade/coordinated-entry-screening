@@ -95,12 +95,7 @@ INSTALLED_BACKENDS = {
     'message_tester': {
         'ENGINE': 'rapidsms.backends.database.DatabaseBackend',
     },
-    "twilio-backend": {
-        "ENGINE": "rtwilio.outgoing.TwilioBackend",
-        'config': {
-            'account_sid': '', 
-            'auth_token': '',  
-            'number': '', 
-        }
+    'fake-backend': {
+        'ENGINE': 'rapidsms.backends.database.DatabaseBackend',
     },
 }

@@ -41,42 +41,46 @@
             }
         });
 
-        // Create BotUI, and listen for keypress event (i.e., hitting "enter")
+        // Create BotUI.
         var botui = new BotUI('my-botui-app');
-        
+
         botui.message.add({
           content: 'Hello! Ready to get started? Type "start."'
         });
 
+        // Listen for keypress event (i.e., hitting "enter")
         $("textarea").keypress(function(event) {
-            // If the enter key is pressed
-            if(event.which === 13) {
-              // Ignore the default function of the enter key (Dont go to a new line)
-              event.preventDefault();
-              $user_input = this.value
-              $.ajax({
-                  type: "POST",
-                  url: "/",
-                  data : { user_input: $user_input },
+            // Did the user press the "enter" key?
+            if (event.which === 13) {
+                // Ignore the default function of the "enter" key
+                event.preventDefault();
+                
+                $user_input = this.value
+                
+                if ($user_input) {
+                    $.ajax({
+                        type: "POST",
+                        url: "/",
+                        data : { user_input: $user_input },
 
-                  success : function(data) {
-                      botui.message.add({
-                          human: true,
-                          content: $user_input       
-                      }).then(function () { 
+                        success : function(data) {
+                            botui.message.add({
+                                human: true,
+                                content: $user_input       
+                            }).then(function () { 
 
-                        botui.message.add({
-                          delay: 2000,
-                          content: data.text
-                        });
-                      });
-                  },
-                  error: function() {
-                    newRecievedMessage("Internal Server Error");
-                  }
-              });
-            }
-
+                              botui.message.add({
+                                delay: 2000,
+                                content: data.text
+                              });
+                            });
+                        },
+                        error: function() {
+                          newRecievedMessage("Internal Server Error");
+                        }
+                    });
+                } // end of "if ($user_input)"
+            } // end of "if (event.which === 13)"
         });
 
     });
