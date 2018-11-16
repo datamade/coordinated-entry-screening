@@ -3,8 +3,8 @@
 {% block title %}Index{% endblock %}
 
 {% block extra_css %}
-    <link rel="stylesheet" href="https://unpkg.com/botui/build/botui.min.css" />
-    <link rel="stylesheet" href="https://unpkg.com/botui/build/botui-theme-default.css" />
+    <link rel="stylesheet" href="{% static 'css/botui.min.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/botui-theme-default.css' %}" />
 {% endblock %}
 
 {% block content %}  
@@ -13,78 +13,73 @@
   <bot-ui></bot-ui>
 </div>
 
-<div >
-    <div></div>
-    <textarea class="input"></textarea>
+<div>
+    <textarea class="form-control"></textarea>
 </div>
 
 {% endblock %}
 
 {% block extra_javascript %}
-<script src="https://cdn.jsdelivr.net/vue/latest/vue.min.js" type="text/javascript"></script>
-<script src="https://unpkg.com/botui/build/botui.min.js" type="text/javascript"></script>
+<script src="{% static 'js/lib/vue.min.js' %}" type="text/javascript"></script>
+<script src="{% static 'js/lib/botui.min.js' %}" type="text/javascript"></script>
+<script src="{% static 'js/lib/js.cookie.js' %}" type="text/javascript"></script>
 
-<!-- <script src="{# static "js/chatbot.js" %}" type="text/javascript"></script> -->
-<script src="{% static "js/js.cookie.js" %}" type="text/javascript"></script>
 <script type="text/javascript">
-    // Boilerplate code from Django documentation
-    // https://docs.djangoproject.com/en/1.11/ref/csrf/#acquiring-the-token-if-csrf-use-sessions-is-false
-    // https://docs.djangoproject.com/en/1.11/ref/csrf/#setting-the-token-on-the-ajax-request
-    var csrftoken = Cookies.get('csrftoken');
-    function csrfSafeMethod(method) {
-        return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
-    }
-    $.ajaxSetup({
-        beforeSend: function(xhr, settings) {
-            if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
-                xhr.setRequestHeader("X-CSRFToken", csrftoken);
+    $('document').ready(function(){
+        // Boilerplate code from Django documentation
+        // https://docs.djangoproject.com/en/1.11/ref/csrf/#acquiring-the-token-if-csrf-use-sessions-is-false
+        // https://docs.djangoproject.com/en/1.11/ref/csrf/#setting-the-token-on-the-ajax-request
+        var csrftoken = Cookies.get('csrftoken');
+        function csrfSafeMethod(method) {
+            return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+        }
+        $.ajaxSetup({
+            beforeSend: function(xhr, settings) {
+                if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                    xhr.setRequestHeader("X-CSRFToken", csrftoken);
+                }
             }
-        }
-    });
+        });
 
+        // Create BotUI, and listen for keypress event (i.e., hitting "enter")
+        var botui = new BotUI('my-botui-app');
+        
+        botui.message.add({
+          content: 'Hello! Ready to get started? Type "start."'
+        });
 
-$('document').ready(function(){
-    var botui = new BotUI('my-botui-app');
+        $("textarea").keypress(function(event) {
+            // If the enter key is pressed
+            if(event.which === 13) {
+              // Ignore the default function of the enter key (Dont go to a new line)
+              event.preventDefault();
+              $user_input = this.value
+              $.ajax({
+                  type: "POST",
+                  url: "/",
+                  data : { user_input: $user_input },
 
-    botui.message.add({
-      content: 'Hello! Ready to get started? Type "start."'
-    });
+                  success : function(data) {
+                      botui.message.add({
+                          human: true,
+                          content: $user_input       
+                      }).then(function () { 
 
-    $("textarea").keypress(function(event) {
-        // If the enter key is pressed
-        if(event.which === 13) {
-          // Ignore the default function of the enter key (Dont go to a new line)
-          event.preventDefault();
-          $user_input = this.value
-          $.ajax({
-              type: "POST",
-              url: "/",
-              data : { user_input: $user_input },
+                        botui.message.add({
+                          delay: 2000,
+                          content: data.text
+                        });
+                      });
+                  },
+                  error: function() {
+                    newRecievedMessage("Internal Server Error");
+                  }
+              });
+            }
 
-              success : function(data) {
-                  botui.message.add({
-                      human: true,
-                      content: $user_input       
-                  }).then(function () { 
-
-                    botui.message.add({
-                      delay: 2000,
-                      content: data.text
-                    });
-
-                  });
-
-              },
-
-              error: function() {
-                newRecievedMessage("Internal Server Error");
-              }
-          });
-        }
+        });
 
     });
-
-});
 
 </script>
 {% endblock %}
