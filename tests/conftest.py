@@ -76,7 +76,7 @@ def message(db):
 
             message_info.update(**kwargs)
 
-            message = Message.objects.create(**message_info)
+            message, _ = Message.objects.get_or_create(**message_info)
 
             return message
 
@@ -94,7 +94,7 @@ def tree_state(db, message):
                 'message_id': msg.id,
             }
 
-            state = TreeState.objects.create(**state_info)
+            state, _ = TreeState.objects.get_or_create(**state_info)
 
             return state
 
