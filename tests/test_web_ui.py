@@ -9,17 +9,20 @@ def test_get_index(auth_client):
 
     assert response.status_code == 200
 
-def test_first_question(auth_client, tree):
+def test_first_question(auth_client, tree, transition):
+    '''
+    Test that the app effectively moves the user from 
+    one question to another via a valid answer.
+    '''
     _start_tree(auth_client, tree)
-
     url = reverse('index')
     response = auth_client.post(url, {'user_input': '1'})
 
     assert response.status_code == 200
 
-    # TODO: Make a transition
     message_from_ben = json.loads(response.content.decode('utf-8'))['text'].replace('\n', '')
 
+    assert transition.next_state.message.text == message_from_ben
 
 def _start_tree(auth_client, tree):
     url = reverse('index')
@@ -29,4 +32,4 @@ def _start_tree(auth_client, tree):
 
     message_from_ben = json.loads(response.content.decode('utf-8'))['text'].replace('\n', '')
 
-    assert message_from_ben == tree.root_state.message.text
+    assert tree.root_state.message.text in message_from_ben

@@ -71,7 +71,8 @@ def message(db):
 
             message_info = {
                 'id': 1, 
-                'text': 'Hi there. Glad to hear from you! Type "1" to get started.',
+                'text': 'Hi there. Glad to hear from you! \
+                         Type "1" to get started.',
             }
 
             message_info.update(**kwargs)
@@ -94,6 +95,8 @@ def tree_state(db, message):
                 'message_id': msg.id,
             }
 
+            state_info.update(**kwargs)
+
             state, _ = TreeState.objects.get_or_create(**state_info)
 
             return state
@@ -103,11 +106,23 @@ def tree_state(db, message):
 @pytest.fixture
 @pytest.mark.django_db
 def transition(db, tree_state, message):
+    '''
+    This fixture builds a transition.
+    https://github.com/datamade/rapidsms-decisiontree-app/blob/master/decisiontree/models.py#L181
+    
+    This transition moves the user from the welcome message 
+    (i.e., 'Hi there. Glad to hear from you! Type "1" to get started.') 
+    to the first survey question (see below).
+
+    The user would make this transition by typing "1" 
+    (see `answer_to_move_between_states` below).
+    '''
     current_state = tree_state.build()
 
     next_message_info = {
         'id': 2,
-        'text': 'First, I need to know where you are. Are you in the city or the suburbs? Type 1 or 2.',
+        'text': 'First, I need to know where you are. \
+                 Are you in the city or the suburbs? Type 1 or 2.',
     }
     next_message = message.build(**next_message_info)
     next_state_info = {
@@ -117,7 +132,7 @@ def transition(db, tree_state, message):
     }
     next_state = tree_state.build(**next_state_info)
 
-    answer_to_move_between_states = Answer.objects.create(answer='1')
+    answer_to_move_between_states = Answer.objects.create(answer='1', type='A')
 
     transition_info = {
         'id': 1,
