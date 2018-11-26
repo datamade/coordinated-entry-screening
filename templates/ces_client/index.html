@@ -25,6 +25,30 @@
 <script src="{% static 'js/lib/js.cookie.js' %}" type="text/javascript"></script>
 
 <script type="text/javascript">
+    // Helper function for sending requests to our Index view
+    function sendAjax(botui, input) {
+        $.ajax({
+            type: "POST",
+            url: "/",
+            data : { user_input: input },
+
+            success : function(data) {
+                botui.message.add({
+                    human: true,
+                    content: input       
+                }).then(function () { 
+                    botui.message.add({
+                        delay: 2000,
+                        content: data.text
+                    });
+                });
+            },
+            error: function() {
+                newRecievedMessage("Internal Server Error");
+            }
+        });
+    };
+
     $('document').ready(function(){
         // Boilerplate code from Django documentation
         // https://docs.djangoproject.com/en/1.11/ref/csrf/#acquiring-the-token-if-csrf-use-sessions-is-false
@@ -56,33 +80,11 @@
                 event.preventDefault();
                 
                 $user_input = this.value
-                
                 if ($user_input) {
-                    $.ajax({
-                        type: "POST",
-                        url: "/",
-                        data : { user_input: $user_input },
-
-                        success : function(data) {
-                            botui.message.add({
-                                human: true,
-                                content: $user_input       
-                            }).then(function () { 
-
-                              botui.message.add({
-                                delay: 2000,
-                                content: data.text
-                              });
-                            });
-                        },
-                        error: function() {
-                          newRecievedMessage("Internal Server Error");
-                        }
-                    });
-                } // end of "if ($user_input)"
-            } // end of "if (event.which === 13)"
+                    sendAjax(botui, $user_input);
+                } 
+            }
         });
-
     });
 
 </script>
