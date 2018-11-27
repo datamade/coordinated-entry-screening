@@ -9,12 +9,13 @@ def test_open_sessions(auth_client, db_setup):
     response = _get_dashboard_helper(auth_client)
     assert response.context['open_sessions'] == 1
 
-def test_open_sessions_chart(auth_client, db_setup):
+def test_open_sessions_chart(auth_client, db_setup, tree_state):
     response = _get_dashboard_helper(auth_client)
     chart_data = json.loads(response.context['open_sessions_chart'])[0]
-
+    tree_state = tree_state.build()
+    
     assert chart_data.get('y') == 1
-    assert chart_data.get('name') == 'How old are you?'
+    assert chart_data.get('name') == tree_state.message.text
 
 def test_canceled_sessions(auth_client, db_setup):
     response = _get_dashboard_helper(auth_client)
