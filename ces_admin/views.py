@@ -62,8 +62,7 @@ class DashboardContextMixin(object):
                                                        where_clause='''WHERE session.state_id is not null
                                                                        AND session.last_modified >= (NOW() - INTERVAL '24 hour')''')
 
-            open_sessions_chart, open_sessions_map = prepare_data(cursor, query)
-            context['open_sessions_chart'] = open_sessions_chart
+            _, open_sessions_map = prepare_data(cursor, query)
             context['open_sessions_map'] = open_sessions_map
 
         return context
