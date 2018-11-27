@@ -7,30 +7,43 @@
     <div class='col-md-10 offset-md-1'>
         <div class='row mt-4'>
             <div class='col-md-12'>
-                <h2>Open sessions</h2>
-                <h4><span class='badge badge-pill badge-primary'>{{ open_sessions }}</span> users have open sessions</h4>
-                <p>These users started a survey in the last 24 hours.</p>
+                <h2>Overview</h2>
+
+                <div class='row'>
+                    <div class='col-md-4 text-center'>
+                        <h1>{{ open_sessions }}</h1>
+                        <p>Surveys currently in progress</p>
+                        <p>These users started a survey in the last 24 hours.</p>
+                    </div>
+                    <div class='col-md-4 text-center'>
+                        <h1></h1>
+                        <p>Percentage of surveys started that were completed</p>
+                    </div>
+                    <div class='col-md-4 text-center'>
+                        <h1></h1>
+                        <p>Percentage of surveys started that were canceled</p>
+                    </div>
+                </div>
             </div>
         </div>
         <div class='row mt-4'>
             <div class='col-md-12'>
-                <h2>Canceled sessions</h2>
-                <h4><span class='badge badge-pill badge-primary'>{{ canceled_sessions }}</span> users canceled their session</h4>
-                <p>These users canceled their session, either by instructing the tool to close their session (e.g. by typing "end") or by abandoning their session after 24 hours. This chart shows the question or resource on which users canceled their sessions.</p>
-                <div id="canceled-chart" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
-            </div>
-        </div>
-        <div class='row mt-4'>
-            <div class='col-md-12'>
-                <h2>Completed sessions</h2>
-                <h4><span class='badge badge-pill badge-primary'>{{ completed_sessions }}</span> users completed their session</h4>
+                <h2>How did users end their sessions?</h2>
+                <h4>Completed sessions <span class='badge badge-pill badge-primary'>{{ completed_sessions }}</span></h4>
                 <p>These users completed the entire survey! This chart shows the last message or resource sent to the user.</p>
                 <div id="completed-chart" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
             </div>
         </div>
         <div class='row mt-4'>
             <div class='col-md-12'>
-                <h2>Recommended Resources</h2>
+                <h4>Canceled sessions <span class='badge badge-pill badge-primary'>{{ canceled_sessions }}</span></h4>
+                <p>These users canceled their session, either by instructing the tool to close their session (e.g. by typing "end") or by abandoning their session after 24 hours. This chart shows the question or resource on which users canceled their sessions.</p>
+                <div id="canceled-chart" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+            </div>
+        </div>
+        <div class='row mt-4'>
+            <div class='col-md-12'>
+                <h2>Which resources has B.E.N. recommended?</h2>
                 <p>This chart shows the total number of times each resource has been recommended.</p>
                 <div id="resources-chart" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
             </div>

@@ -83,6 +83,7 @@ class DashboardContextMixin(object):
                                                                        OR (session.state_id is not null
                                                                        AND session.last_modified < (NOW() - INTERVAL '24 hour'))''')
 
+
             canceled_sessions_chart, canceled_sessions_map = prepare_data(cursor, query)
             context['canceled_sessions_chart'] = canceled_sessions_chart
             context['canceled_sessions_map'] = canceled_sessions_map
