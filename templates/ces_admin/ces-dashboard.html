@@ -12,15 +12,14 @@
                 <div class='row'>
                     <div class='col-md-4 text-center'>
                         <h1>{{ open_sessions }}</h1>
-                        <p>Surveys currently in progress</p>
-                        <p>These users started a survey in the last 24 hours.</p>
+                        <p>Surveys currently in progress (started in the last 24 hours)</p>
                     </div>
                     <div class='col-md-4 text-center'>
-                        <h1></h1>
+                        <h1>{{ percentage_complete | floatformat }}%</h1>
                         <p>Percentage of surveys started that were completed</p>
                     </div>
                     <div class='col-md-4 text-center'>
-                        <h1></h1>
+                        <h1>{{ percentage_canceled | floatformat }}%</h1>
                         <p>Percentage of surveys started that were canceled</p>
                     </div>
                 </div>
@@ -43,7 +42,7 @@
         </div>
         <div class='row mt-4'>
             <div class='col-md-12'>
-                <h2>Which resources has B.E.N. recommended?</h2>
+                <h2>Which resources did B.E.N. recommend?</h2>
                 <p>This chart shows the total number of times each resource has been recommended.</p>
                 <div id="resources-chart" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
             </div>

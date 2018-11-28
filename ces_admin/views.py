@@ -88,6 +88,9 @@ class DashboardContextMixin(object):
             context['canceled_sessions_chart'] = canceled_sessions_chart
             context['canceled_sessions_map'] = canceled_sessions_map
 
+        all_sessions = Session.objects.all().count()
+        context['percentage_canceled'] = (context['canceled_sessions'] / all_sessions) * 100
+
         return context
 
     def completed_sessions(self):
@@ -107,6 +110,9 @@ class DashboardContextMixin(object):
             completed_sessions_chart, completed_sessions_map = prepare_data(cursor, query)
             context['completed_sessions_chart'] = completed_sessions_chart
             context['completed_sessions_map'] = completed_sessions_map
+
+        all_sessions = Session.objects.all().count()
+        context['percentage_complete'] = (context['completed_sessions'] / all_sessions) * 100
 
         return context
 
@@ -148,5 +154,5 @@ class DashboardView(DashboardContextMixin, TemplateView):
         context.update(self.canceled_sessions())
         context.update(self.completed_sessions())
         context.update(self.recommendations())
-
+        
         return context

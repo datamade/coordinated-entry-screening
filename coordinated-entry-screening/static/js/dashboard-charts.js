@@ -38,10 +38,12 @@ function barHelper(container, prepped_data, data_map){
             },
             useHTML: true,
             headerFormat: '',
-            pointFormat:  '<h6><strong>{point.y} users</strong></h6><hr><p>{point.name}</p>',
-            shared: true,
+            pointFormat:  '<h6><strong>{point.y} recommendations</strong></h6><hr><p>{point.name}</p>',
             shadow: false,
             borderColor: '#3B4B5C'
+        },
+        credits: {
+            enabled: false
         },
         series: [
             {
@@ -72,12 +74,15 @@ function stackedBarHelper(container, prepped_data, data_map){
         },
         yAxis: {
             title: {
-                text: 'Percent of users ending on result'
+                text: 'Percent of users'
             },
-            allowDecimals: false
+            allowDecimals: false,
         },
         legend: {
-            enabled: true
+            enabled: true,
+            labelFormatter: function () {
+                return data_map[this.name];
+            },
         },
         plotOptions: {
             series: {
@@ -101,10 +106,12 @@ function stackedBarHelper(container, prepped_data, data_map){
             },
             useHTML: true,
             headerFormat: '',
-            pointFormat:  '<h6><strong>{point.y} users</strong></h6><hr><p>{point.name}</p>',
-            shared: true,
+            pointFormat:  '<h6><strong>{point.y}% of users</strong></h6><p>{point.series.name}</p>',
             shadow: false,
             borderColor: '#3B4B5C'
+        },
+        credits: {
+            enabled: false
         },
         series: prepped_data
     });
