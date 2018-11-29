@@ -5,27 +5,27 @@
 
 <div class='row'>
     <div class='col-md-10 offset-md-1'>
-        <div class='row mt-4'>
+        <div class='row mt-6'>
             <div class='col-md-12'>
                 <h2>Overview</h2>
 
                 <div class='row'>
-                    <div class='col-md-4 text-center'>
-                        <h1>{{ open_sessions }}</h1>
+                    <div class='col-md-4 p-5 text-center'>
+                        <h3>{{ open_sessions }}</h3>
                         <p>Surveys currently in progress (started in the last 24 hours)</p>
                     </div>
-                    <div class='col-md-4 text-center'>
-                        <h1>{{ percentage_complete | floatformat }}%</h1>
+                    <div class='col-md-4 p-5 text-center'>
+                        <h3>{{ percentage_complete | floatformat }}%</h3>
                         <p>Percentage of surveys started that were completed</p>
                     </div>
-                    <div class='col-md-4 text-center'>
-                        <h1>{{ percentage_canceled | floatformat }}%</h1>
+                    <div class='col-md-4 p-5 text-center'>
+                        <h3>{{ percentage_canceled | floatformat }}%</h3>
                         <p>Percentage of surveys started that were canceled</p>
                     </div>
                 </div>
             </div>
         </div>
-        <div class='row mt-4'>
+        <div class='row mt-6'>
             <div class='col-md-12'>
                 <h2>How did users end their sessions?</h2>
                 <h4>Completed sessions <span class='badge badge-pill badge-primary'>{{ completed_sessions }}</span></h4>
@@ -40,7 +40,7 @@
                 <div id="canceled-chart" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
             </div>
         </div>
-        <div class='row mt-4'>
+        <div class='row mt-6 mb-5'>
             <div class='col-md-12'>
                 <h2>Which resources did B.E.N. recommend?</h2>
                 <p>This chart shows the total number of times each resource has been recommended on all surveys (open, completed, and closed).</p>

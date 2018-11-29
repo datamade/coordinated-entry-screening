@@ -3,17 +3,58 @@
     --light-blue: #4da0d0;
 }
 
-/*** Navbar and footer ***/
+/*http://getbootstrap.com/docs/4.0/examples/sticky-footer/*/
+html {
+  position: relative; 
+  min-height: 100%;
+}
+
+body {
+    font-family: 'Libre Franklin', sans-serif !important;
+    margin-bottom: 60px;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-weight: 800;
+}
+
+/* Custom Bootstrap utilities */
+.mt-6 {
+    margin-top: 4em !important; /* https://getbootstrap.com/docs/4.1/utilities/spacing/#examples */
+}
+
+.badge-primary {
+    background-color: var(--blue);
+}
+
+.btn-blue {
+    background-color: var(--blue);
+    color: #fff;
+}
+
+.btn-blue:hover, .btn-blue.active {
+    background-color: var(--light-blue);
+}
+
+/* Navbar and footer */
 nav {
-  background-color: var(--blue);
-  color: #fff;
+    background-color: var(--blue);
+    color: #fff;
+}
+.navbar-dark .navbar-nav .nav-link {
+    color: #fff;
 }
 
-footer {
-  background-color: var(--light-blue);
-  color: #fff; 
+.footer {
+    background-color: var(--light-blue);
+    color: #fff; 
+    line-height: 60px;
+      position: absolute;
+    bottom: 0;
+    width: 100%;
 }
 
+/* Dashboard charts */
 .highcharts-tooltip span {
     height: auto;
     width: 200px;;
@@ -21,6 +62,5 @@ footer {
     white-space: normal !important;
 }
 
-.badge-primary {
-    background-color: var(--blue);
-}
+
+
