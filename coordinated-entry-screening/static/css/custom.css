@@ -1,6 +1,26 @@
+:root {
+    --blue: #0178BC;
+    --light-blue: #4da0d0;
+}
+
+/*** Navbar and footer ***/
+nav {
+  background-color: var(--blue);
+  color: #fff;
+}
+
+footer {
+  background-color: var(--light-blue);
+  color: #fff; 
+}
+
 .highcharts-tooltip span {
     height: auto;
     width: 200px;;
     overflow: auto;
     white-space: normal !important;
+}
+
+.badge-primary {
+    background-color: var(--blue);
 }

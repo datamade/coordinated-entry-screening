@@ -19,7 +19,7 @@ function barHelper(container, prepped_data, data_map){
         },
         yAxis: {
             title: {
-                text: 'Number of times resource was recommended'
+                text: 'Number of times B.E.N recommended a resource'
             },
             allowDecimals: false
         },
