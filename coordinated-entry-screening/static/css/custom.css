@@ -1,30 +1,33 @@
 :root {
     --blue: #0178BC;
     --light-blue: #4da0d0;
+    --red-orange: #CC1E00;
+    --almost-black: #434348;
 }
 
-/*http://getbootstrap.com/docs/4.0/examples/sticky-footer/*/
 html {
-  position: relative; 
-  min-height: 100%;
+    /*Required for: getbootstrap.com/docs/4.0/examples/sticky-footer/ */
+    position: relative; 
+    min-height: 100%;
 }
 
 body {
-    font-family: 'Libre Franklin', sans-serif !important;
+    font-family: 'Libre Franklin', sans-serif;
     margin-bottom: 60px;
 }
 
-h1, h2, h3, h4, h5, h6 {
-    font-weight: 800;
+h1, h2, h3 {
+    text-transform: uppercase;
 }
 
 /* Custom Bootstrap utilities */
 .mt-6 {
-    margin-top: 4em !important; /* https://getbootstrap.com/docs/4.1/utilities/spacing/#examples */
+    margin-top: 4em; 
+    /* A custom class inspired by: getbootstrap.com/docs/4.1/utilities/spacing/#examples */
 }
 
 .badge-primary {
-    background-color: var(--blue);
+    background-color: var(--red-orange);
 }
 
 .btn-blue {
@@ -57,10 +60,9 @@ nav {
 /* Dashboard charts */
 .highcharts-tooltip span {
     height: auto;
-    width: 200px;;
+    width: 200px;
     overflow: auto;
     white-space: normal !important;
+    color: var(--almost-black);
+    background-color: '#ECF0F1';
 }
-
-
-
