@@ -1,7 +1,9 @@
-function barHelper(container, prepped_data, data_map){
-    Highcharts.chart(container, {
+var basic_config = {  
         chart: {
-            type: 'bar'
+            type: 'bar',
+            style: {
+                fontFamily: 'Libre Franklin', 
+            }
         },
         title: {
             text: null
@@ -9,6 +11,13 @@ function barHelper(container, prepped_data, data_map){
         subtitle: {
             text: null
         },
+        credits: {
+            enabled: false
+        },
+    }
+
+function barHelper(container, prepped_data, data_map){
+    custom_config = {
         xAxis: {
             type: 'category',
             labels: {
@@ -19,7 +28,7 @@ function barHelper(container, prepped_data, data_map){
         },
         yAxis: {
             title: {
-                text: 'Number of users'
+                text: 'Number of times B.E.N recommended each resource'
             },
             allowDecimals: false
         },
@@ -32,16 +41,11 @@ function barHelper(container, prepped_data, data_map){
             }
         },
         tooltip: {
-            backgroundColor: 'rgba(236, 240, 241, .85)',
-            style: {
-                color: '#3B4B5C',
-            },
             useHTML: true,
             headerFormat: '',
-            pointFormat:  '<h6><strong>{point.y} users</strong></h6><hr><p>{point.name}</p>',
-            shared: true,
+            pointFormat:  '<h6><strong>{point.y} recommendations</strong></h6><p>{point.name}</p>',
             shadow: false,
-            borderColor: '#3B4B5C'
+            borderColor: '#3B4B5C',
         },
         series: [
             {
@@ -50,5 +54,59 @@ function barHelper(container, prepped_data, data_map){
                 "data": prepped_data
             }
         ]
-    });
+    }
+
+    config = $.extend(basic_config, custom_config);
+
+    Highcharts.chart(container, config);
+}
+
+function stackedBarHelper(container, prepped_data, data_map){
+    custom_config = {
+        xAxis: {
+          labels: {
+            enabled: false
+          },
+          tickWidth: 0
+        },
+        yAxis: {
+            title: {
+                text: 'Percent of users'
+            },
+            allowDecimals: false,
+        },
+        legend: {
+            enabled: true,
+            labelFormatter: function () {
+                return data_map[this.name];
+            },
+        },
+        plotOptions: {
+            series: {
+              stacking: 'percent',
+              dataLabels: {
+                enabled: true,
+                format: '{y:,.0f}%',
+                color: '#fff',
+                style: {
+                  textShadow: 'none',
+                  opacity: .8,
+                  fontWeight: 'bold'
+                }
+              }
+            }
+        },
+        tooltip: {
+            useHTML: true,
+            headerFormat: '',
+            pointFormat:  '<h6><strong>{point.y}% of users</strong></h6><p>{point.series.name}</p>',
+            shadow: false,
+            borderColor: '#3B4B5C',
+        },
+        series: prepped_data
+    }
+
+    config = $.extend(basic_config, custom_config);
+
+    Highcharts.chart(container, config);
 }

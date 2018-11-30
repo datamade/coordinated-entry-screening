@@ -18,3 +18,7 @@ static/**
 /scripts/app_start.sh
 /scripts/after_install.sh
 /configs/settings_deployment.py
+
+# test data
+ces.dump
+ces2.dump

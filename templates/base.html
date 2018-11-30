@@ -9,19 +9,37 @@
 
     <link rel="stylesheet" href="{% static "css/bootstrap.min.css" %}" type="text/css" media="screen" />
     <link rel="shortcut icon" href="{% static "img/favicon.ico" %}" />
-
+    <link href="https://fonts.googleapis.com/css?family=Libre+Franklin" rel="stylesheet">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.2/css/all.css" />
     <link rel="stylesheet" href="{% static "css/custom.css" %}" type="text/css" />
     {% block extra_css %}{% endblock %}
 </head>
 <body>
-    <nav class="navbar navbar-light bg-light">
-        <span class="navbar-brand mb-0 h1">Coordinated Entry Screening</span>
+    <nav class="navbar navbar-dark navbar-expand-lg">
+        <a class='navbar-brand' href="{% url 'index' %}">Coordinated Entry Screening</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                {% if request.user.is_authenticated %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'ces_logout'%}"><i class="fas fa-user-circle"></i>&nbsp;<strong>{{ user.get_username }}</strong> | Logout</a>
+                </li>
+                {% endif %}
+            </ul>
+        </div>
     </nav>
 
     <div class="container">
         {% block content %}{% endblock %}
     </div>
+
+    {% block footer %}
+    <footer class="footer col-sm-12 p-3">
+        <h6>Website by DataMade</h6>
+    </footer>
+    {% endblock %}
 
     <script src="{% static 'js/lib/jquery-3.3.1.min.js' %}" type="text/javascript"></script>
     <script src="{% static 'js/lib/bootstrap.min.js' %}" type="text/javascript"></script>

@@ -4,37 +4,46 @@
 {% block content %}
 
 <div class='row'>
-    <div class='col-md-10 offset-md-1'>
-        <div class='row mt-4'>
-            <div class='col-md-12'>
-                <h2>Open sessions</h2>
-                <h4><span class='badge badge-pill badge-primary'>{{ open_sessions }}</span> users have open sessions</h4>
-                <p>These users started a survey in the last 24 hours.</p>
-                {% if open_sessions %}
-                    <div id="open-chart" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
-                {% endif %}
+    <div class='col-10 offset-1'>
+        <div class='row mt-6'>
+            <div class='col-12'>
+                <h2>Overview</h2>
+
+                <div class='row'>
+                    <div class='col p-5 text-center'>
+                        <h3>{{ open_sessions }}</h3>
+                        <p>Surveys currently in progress (started in the last 24 hours)</p>
+                    </div>
+                    <div class='col p-5 text-center'>
+                        <h3>{{ percentage_complete | floatformat }}%</h3>
+                        <p>Percentage of surveys started that were completed</p>
+                    </div>
+                    <div class='col p-5 text-center'>
+                        <h3>{{ percentage_canceled | floatformat }}%</h3>
+                        <p>Percentage of surveys started that were canceled</p>
+                    </div>
+                </div>
             </div>
         </div>
-        <div class='row mt-4'>
-            <div class='col-md-12'>
-                <h2>Canceled sessions</h2>
-                <h4><span class='badge badge-pill badge-primary'>{{ canceled_sessions }}</span> users canceled their session</h4>
-                <p>These users canceled their session, either by instructing the tool to close thier session (e.g. by typing "end") or by abandoning their session after 24 hours. This chart shows the question or resource on which users canceled their sessions.</p>
-                <div id="canceled-chart" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
-            </div>
-        </div>
-        <div class='row mt-4'>
-            <div class='col-md-12'>
-                <h2>Completed sessions</h2>
-                <h4><span class='badge badge-pill badge-primary'>{{ completed_sessions }}</span> users completed their session</h4>
+        <div class='row mt-6'>
+            <div class='col-12'>
+                <h2>How did users end their sessions?</h2>
+                <h4><span class='badge badge-pill badge-primary'>{{ completed_sessions }}</span> Completed sessions</h4>
                 <p>These users completed the entire survey! This chart shows the last message or resource sent to the user.</p>
                 <div id="completed-chart" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
             </div>
         </div>
         <div class='row mt-4'>
-            <div class='col-md-12'>
-                <h2>Recommended Resources</h2>
-                <p>This chart shows the total number of times each resource has been recommended.</p>
+            <div class='col-12'>
+                <h4><span class='badge badge-pill badge-primary'>{{ canceled_sessions }}</span> Canceled sessions</h4>
+                <p>These users canceled their session, either by instructing the tool to close their session (e.g. by typing "end") or by abandoning their session after 24 hours. This chart shows the question or resource on which users canceled their sessions.</p>
+                <div id="canceled-chart" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+            </div>
+        </div>
+        <div class='row mt-6 mb-5'>
+            <div class='col-12'>
+                <h2>Which resources did B.E.N. recommend?</h2>
+                <p>This chart shows the total number of times each resource has been recommended on all surveys (open, completed, and closed).</p>
                 <div id="resources-chart" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
             </div>
         </div>
@@ -48,19 +57,14 @@
 <script src="{% static 'js/dashboard-charts.js' %}" type="text/javascript"></script>
 <script>
     $(function() {
-        open_sessions_chart = JSON.parse('{{open_sessions_chart | escapejs}}');
-        open_sessions_map = JSON.parse('{{open_sessions_map | escapejs}}');
-        if (open_sessions_chart.length != 0) {
-            barHelper('open-chart', open_sessions_chart, open_sessions_map);
-        }
 
         canceled_sessions_chart = JSON.parse('{{canceled_sessions_chart | escapejs}}');
         canceled_sessions_map = JSON.parse('{{canceled_sessions_map | escapejs}}');
-        barHelper('canceled-chart', canceled_sessions_chart, canceled_sessions_map);
+        stackedBarHelper('canceled-chart', canceled_sessions_chart, canceled_sessions_map);
 
         completed_sessions_chart = JSON.parse('{{completed_sessions_chart | escapejs}}');
         completed_sessions_map = JSON.parse('{{completed_sessions_map | escapejs}}');
-        barHelper('completed-chart', completed_sessions_chart, completed_sessions_map);
+        stackedBarHelper('completed-chart', completed_sessions_chart, completed_sessions_map);
 
         resources_chart = JSON.parse('{{resources_chart | escapejs}}');
         resources_map = JSON.parse('{{resources_map | escapejs}}');
