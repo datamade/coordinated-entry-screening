@@ -4,9 +4,9 @@
 {% block content %}
 
 <div class='row'>
-    <div class='col-md-10 offset-md-1'>
+    <div class='col-10 offset-1'>
         <div class='row mt-6'>
-            <div class='col-md-12'>
+            <div class='col-12'>
                 <h2>Overview</h2>
 
                 <div class='row'>
@@ -26,7 +26,7 @@
             </div>
         </div>
         <div class='row mt-6'>
-            <div class='col-md-12'>
+            <div class='col-12'>
                 <h2>How did users end their sessions?</h2>
                 <h4><span class='badge badge-pill badge-primary'>{{ completed_sessions }}</span> Completed sessions</h4>
                 <p>These users completed the entire survey! This chart shows the last message or resource sent to the user.</p>
@@ -34,14 +34,14 @@
             </div>
         </div>
         <div class='row mt-4'>
-            <div class='col-md-12'>
+            <div class='col-12'>
                 <h4><span class='badge badge-pill badge-primary'>{{ canceled_sessions }}</span> Canceled sessions</h4>
                 <p>These users canceled their session, either by instructing the tool to close their session (e.g. by typing "end") or by abandoning their session after 24 hours. This chart shows the question or resource on which users canceled their sessions.</p>
                 <div id="canceled-chart" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
             </div>
         </div>
         <div class='row mt-6 mb-5'>
-            <div class='col-md-12'>
+            <div class='col-12'>
                 <h2>Which resources did B.E.N. recommend?</h2>
                 <p>This chart shows the total number of times each resource has been recommended on all surveys (open, completed, and closed).</p>
                 <div id="resources-chart" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
