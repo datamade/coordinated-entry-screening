@@ -1,7 +1,7 @@
 :root {
     --blue: #0178BC;
     --light-blue: #4da0d0;
-    --red-orange: #CC1E00;
+    --green: #56967D;
     --almost-black: #434348;
 }
 
@@ -27,7 +27,7 @@ h1, h2, h3 {
 }
 
 .badge-primary {
-    background-color: var(--red-orange);
+    background-color: var(--green);
 }
 
 .btn-blue {

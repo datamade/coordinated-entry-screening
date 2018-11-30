@@ -45,7 +45,7 @@ function barHelper(container, prepped_data, data_map){
             headerFormat: '',
             pointFormat:  '<h6><strong>{point.y} recommendations</strong></h6><p>{point.name}</p>',
             shadow: false,
-            borderColor: '#3B4B5C'
+            borderColor: '#3B4B5C',
         },
         series: [
             {
@@ -101,7 +101,7 @@ function stackedBarHelper(container, prepped_data, data_map){
             headerFormat: '',
             pointFormat:  '<h6><strong>{point.y}% of users</strong></h6><p>{point.series.name}</p>',
             shadow: false,
-            borderColor: '#3B4B5C'
+            borderColor: '#3B4B5C',
         },
         series: prepped_data
     }
