@@ -154,5 +154,29 @@ class DashboardView(DashboardContextMixin, TemplateView):
         context.update(self.canceled_sessions())
         context.update(self.completed_sessions())
         context.update(self.recommendations())
+
+        # Create data for timeseries chart
+        import pandas as pd
+
+        # Todo: filter by web vs. text tools
+        sessions = Session.objects.all()
+
+        from collections import Counter
+
+        # Todo: make range from sometime in November to today
+        index = pd.date_range('2018-11-30', '2018-12-1', freq='1min')
+
+        # Todo: change each date by rounding to the last minute? or last half hour
+        dates = [session.last_modified for session in sessions]
+
+
+        df = pd.DataFrame([0] * len(index), index=index)
+        df.update(pd.DataFrame.from_dict(Counter(pd.to_datetime(dates)), 'index'))
+
+        # Todo: prep data for Highchart!
+        # from django.core.serializers.json import DjangoJSONEncoder
+        # json.dumps(df, cls=DjangoJSONEncoder)
         
+        # Todo: get JS for highchart
+        # import pdb; pdb.set_trace()
         return context
