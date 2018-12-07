@@ -2,25 +2,6 @@ import os
 
 from .settings_deployment import *
 
-# http://rapidsms.readthedocs.io/en/develop/ref/settings.html#installed-backends
-INSTALLED_BACKENDS = {
-    # From: https://github.com/rapidsms/rapidsms/tree/develop/rapidsms/backends/database
-    'message_tester': {
-        'ENGINE': 'rapidsms.backends.database.DatabaseBackend',
-    },
-    # From: https://rapidsms-twilio.readthedocs.io/en/latest/quick-start.html
-    "twilio-backend": {
-        "ENGINE": "rtwilio.outgoing.TwilioBackend",
-        'config': {
-            'account_sid': ACCOUNT_SID, 
-            'auth_token': AUTH_TOKEN,  
-            'number': TWILIO_NUMBER, 
-            # optional callback URL
-            # 'callback': 'http://<public-django-instance>/backend/twilio/status-callback/',
-        }
-    },
-}
-
 INSTALLED_APPS = [
     'ces_client',
     'ces_admin',
@@ -127,4 +108,8 @@ LOGGING = {
     }
 }
 
-DEFAULT_RESPONSE = "Not a valid message. Type 'start' to begin a survey or 'stop' to unsubscribe from all notifications."
+DEFAULT_RESPONSE = "Not a valid message. Type 'connect' to begin a survey or 'bye' to exit."
+
+DECISIONTREE_SESSION_END_TRIGGER = 'bye'
+
+DECISIONTREE_SESSION_END_MESSAGE = "All right! You're all set. It was nice getting to know you, and remember: you can always reach me here."

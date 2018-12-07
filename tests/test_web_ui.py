@@ -1,7 +1,10 @@
 import pytest
 import json
 
+from django.conf import settings
 from django.urls import reverse
+
+from ces_client.utils import WebRouter
 
 def test_get_index(auth_client):
     url = reverse('index')
@@ -26,7 +29,7 @@ def test_first_question(auth_client, tree, transition):
 
 def _start_tree(auth_client, tree):
     url = reverse('index')
-    response = auth_client.post(url, {'user_input': 'start'})
+    response = auth_client.post(url, {'user_input': 'connect'})
 
     assert response.status_code == 200
 

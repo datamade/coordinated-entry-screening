@@ -6,6 +6,7 @@ from pytest_django.fixtures import db
 
 from django.contrib.auth.models import User
 from rapidsms.models import Connection, Backend
+from rapidsms.messages.incoming import IncomingMessage
 from decisiontree.models import Session, TreeState, Message, Tree, Transition, Answer
 
 @pytest.fixture
@@ -14,17 +15,19 @@ def db_setup(db, session):
     '''
     Populate the database with one open, canceled, and completed session.
     '''
-    session.build() # Default session fixture creates an on open session
+    initial_session = session.build() # Default session fixture creates an on open session
 
     canceled_session = {
         'canceled': True,
         'state_id': None,
+        'state_at_close': initial_session.state,
     }
     session.build(**canceled_session)
 
     completed_session = {
         'canceled': False,
         'state_id': None,
+        'state_at_close': initial_session.state,
     }
     session.build(**completed_session)
 
@@ -82,6 +85,26 @@ def message(db):
             return message
 
     return MessageFactory()
+
+@pytest.fixture
+def incoming_message(db, connection):
+    '''
+    Factory for instantiating an IncomingMessage, i.e., the message
+    from the user, which gets sent to the app (...or B.E.N.).
+    '''
+    class IncomingMessageFactory():
+        def build(self, **kwargs):
+
+            message_info = {
+                'text': 'connect',
+                'connection': connection
+            }
+
+            incoming_message = IncomingMessage(**message_info)
+
+            return incoming_message
+
+    return IncomingMessageFactory()
 
 @pytest.fixture
 @pytest.mark.django_db
@@ -152,7 +175,7 @@ def tree(db, tree_state):
     tree_info = {
         'id': 1, 
         'summary': 'CES survey',
-        'trigger': 'start',
+        'trigger': 'connect',
         'root_state_id': state.id,
     }
 

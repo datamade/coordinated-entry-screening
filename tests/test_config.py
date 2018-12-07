@@ -92,10 +92,11 @@ TEMPLATES = [
 ]
 
 INSTALLED_BACKENDS = {
-    'message_tester': {
-        'ENGINE': 'rapidsms.backends.database.DatabaseBackend',
-    },
     'fake-backend': {
         'ENGINE': 'rapidsms.backends.database.DatabaseBackend',
     },
 }
+
+DECISIONTREE_SESSION_END_TRIGGER = 'bye'
+
+DECISIONTREE_SESSION_END_MESSAGE = "All right! You're all set. It was nice getting to know you, and remember: you can always reach me here."

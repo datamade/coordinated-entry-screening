@@ -2,19 +2,49 @@ SECRET_KEY = 'something truly secret'
 
 DEBUG = True
 
+# For development
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'NAME': 'coordinated-entry-screening',
+#         'USER': '',
+#         'PASSWORD': '',
+#         'PORT': 5432,
+#     }
+# }
+
+# For testing
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'coordinated-entry-screening',
-        'USER': '',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'travis',
+        'USER': 'travis',
         'PASSWORD': '',
-        'PORT': 5432,
+        'HOST': 'localhost',
+        'PORT': '5432',
     }
-}
+} 
 
 ACCOUNT_SID = ''
 AUTH_TOKEN = ''
 TWILIO_NUMBER = ''
+
+# http://rapidsms.readthedocs.io/en/develop/ref/settings.html#installed-backends
+INSTALLED_BACKENDS = {
+    # For rapidsms: https://github.com/rapidsms/rapidsms/tree/develop/rapidsms/backends/database
+    'message_tester': {
+        'ENGINE': 'rapidsms.backends.database.DatabaseBackend',
+    },
+    # For twilio integration: https://rapidsms-twilio.readthedocs.io/en/latest/quick-start.html
+    # "twilio-backend": {
+    #     "ENGINE": "rtwilio.outgoing.TwilioBackend",
+    #     'config': {
+    #         'account_sid': ACCOUNT_SID, 
+    #         'auth_token': AUTH_TOKEN,  
+    #         'number': TWILIO_NUMBER, 
+    #     }
+    # },
+}
 
 ALLOWED_HOSTS = ['.ngrok.io', 
                  '127.0.0.1', 

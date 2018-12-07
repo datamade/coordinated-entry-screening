@@ -1,7 +1,7 @@
 :root {
     --blue: #0178BC;
     --light-blue: #4da0d0;
-    --green: #56967D;
+    --green: #3db54a;
     --almost-black: #434348;
 }
 
@@ -65,4 +65,8 @@ nav {
     white-space: normal !important;
     color: var(--almost-black);
     background-color: '#ECF0F1';
+}
+
+.border-btm {
+    border-bottom: 2px solid #ebebeb;
 }

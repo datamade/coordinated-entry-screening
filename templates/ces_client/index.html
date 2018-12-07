@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load static %}
+{% load ces_client_extras %}
 {% block title %}Index{% endblock %}
 
 {% block extra_css %}
@@ -9,12 +10,23 @@
 
 {% block content %}  
 
-<div id="my-botui-app">
-  <bot-ui></bot-ui>
-</div>
-
-<div>
-    <textarea class="form-control"></textarea>
+<div class='row'>
+    <div class='col-10 offset-1'>
+        <div class='row'>
+            <div class='col mt-5 mb-3 pb-3 border-btm'>
+                <h2>
+                    Connect to End Homelessness<br>
+                    <small>A unified community response</small>
+                </h2>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi at rhoncus est. Maecenas rutrum, lorem sit amet semper rhoncus, lectus erat viverra ligula, vitae laoreet eros turpis at mauris. Proin commodo interdum urna, vel ultrices mauris porta in. Vivamus porta tempor odio, ut condimentum felis laoreet eget. Cras eu volutpat ex. Suspendisse finibus tincidunt dui. Aliquam ornare et quam semper vulputate. Vestibulum laoreet pretium lorem vitae tristique. Etiam auctor ornare sem a ultrices. Nulla at libero vulputate, scelerisque urna quis, iaculis neque. Vivamus ut finibus neque. Ut in tellus pellentesque velit elementum dignissim nec sit amet tortor. Pellentesque et urna eget nisi fermentum aliquam at sed dolor. Nam consectetur lobortis diam. Phasellus fringilla ex neque, in tincidunt massa bibendum vitae. Donec quis blandit nisi.</p>
+                <p>Use the chat tool below to find resources. Want to start over or exit the survey? Click "Goodbye!" or refresh the page.</p>
+            </div>
+        </div>
+        <!-- Message board for B.E.N. -->
+        <div id="ben-the-bot">
+          <bot-ui></bot-ui>
+        </div>
+    </div>
 </div>
 
 {% endblock %}
@@ -25,6 +37,7 @@
 <script src="{% static 'js/lib/js.cookie.js' %}" type="text/javascript"></script>
 
 <script type="text/javascript">
+    var result; // Global variable that receives new value in ajax callback
     // Helper function for sending requests to our Index view
     function sendAjax(botui, input) {
         $.ajax({
@@ -32,16 +45,26 @@
             url: "/",
             data : { user_input: input },
 
-            success : function(data) {
+            success : function(data) {                
                 botui.message.add({
-                    human: true,
-                    content: input       
-                }).then(function () { 
-                    botui.message.add({
-                        delay: 2000,
-                        content: data.text
-                    });
+                    delay: 2000,
+                    content: data.text
+                }).then(function () {
+                    // Setup button with promise
+                    if (data.answers.length != 0) {
+                        botui.action.button({
+                          action: data.answers
+                        }).then(function (res) {
+                            result = res.value
+                        });
+                    } else {
+                        botui.message.add({
+                            delay: 2000,
+                            content: '{% get_settings_value "DECISIONTREE_SESSION_END_MESSAGE" %}'
+                        })
+                    }
                 });
+
             },
             error: function() {
                 return "Internal Server Error";
@@ -66,25 +89,28 @@
         });
 
         // Create BotUI.
-        var botui = new BotUI('my-botui-app');
+        var botui = new BotUI('ben-the-bot');
 
         botui.message.add({
-          content: 'Hello! Ready to get started? Type "start."'
+          content: 'Ready to get started? Click "Connect."'
+        })
+        // Show initial trigger word
+        botui.action.button({
+          action: [
+            { 
+                text: 'Connect',
+                value: 'connect'
+            }
+          ]
+        }).then(function (res) {
+            result = res.value
         });
 
-        // Listen for keypress event (i.e., hitting "enter")
-        $("textarea").keypress(function(event) {
-            // Did the user press the "enter" key?
-            if (event.which === 13) {
-                // Ignore the default function of the "enter" key
-                event.preventDefault();
-                
-                $user_input = this.value
-                if ($user_input) {
-                    sendAjax(botui, $user_input);
-                } 
-            }
+        // Listen for clicks
+        $(document).on('click','.botui-actions-buttons-button',function(){
+            sendAjax(botui, result);
         });
+
     });
 
 </script>
