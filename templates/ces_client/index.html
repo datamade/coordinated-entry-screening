@@ -11,23 +11,27 @@
 {% block content %}  
 
 <div class='row'>
-    <div class='col-10 offset-1'>
-        <div class='row'>
-            <div class='col mt-5 mb-3 pb-3 border-btm'>
-                <h2>
-                    Connect to End Homelessness<br>
-                    <small>A unified community response</small>
-                </h2>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi at rhoncus est. Maecenas rutrum, lorem sit amet semper rhoncus, lectus erat viverra ligula, vitae laoreet eros turpis at mauris. Proin commodo interdum urna, vel ultrices mauris porta in. Vivamus porta tempor odio, ut condimentum felis laoreet eget. Cras eu volutpat ex. Suspendisse finibus tincidunt dui. Aliquam ornare et quam semper vulputate. Vestibulum laoreet pretium lorem vitae tristique. Etiam auctor ornare sem a ultrices. Nulla at libero vulputate, scelerisque urna quis, iaculis neque. Vivamus ut finibus neque. Ut in tellus pellentesque velit elementum dignissim nec sit amet tortor. Pellentesque et urna eget nisi fermentum aliquam at sed dolor. Nam consectetur lobortis diam. Phasellus fringilla ex neque, in tincidunt massa bibendum vitae. Donec quis blandit nisi.</p>
-                <p>Use the chat tool below to find resources. Want to start over or exit the survey? Click "Goodbye!" or refresh the page.</p>
-            </div>
-        </div>
-        <!-- Message board for B.E.N. -->
-        <div id="ben-the-bot">
-          <bot-ui></bot-ui>
-        </div>
+    <div class='col-10 offset-1 mt-5 mb-3 pb-3'>
+        <h3>Connect to End Homelessness</h3>
+        <h4>A unified community response from the Corporation for Supportive Housing</h4>
+        <p>Are you looking for a place to stay tonight? Are you experiencing some form of homelessness? Talk to B.E.N. He will help guide you to your next location. Click "Goodbye!" or refresh the page.</p>
     </div>
 </div>
+
+<div class='row'>
+    <div class='col-10 offset-1'>
+        <div class="card">
+            <div class="card-header">
+                Start talking to B.E.N.
+            </div>
+            <div class="card-body scroll">
+                <div id="ben-the-bot">
+                  <bot-ui></bot-ui>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> 
 
 {% endblock %}
 
@@ -35,83 +39,53 @@
 <script src="{% static 'js/lib/vue.min.js' %}" type="text/javascript"></script>
 <script src="{% static 'js/lib/botui.min.js' %}" type="text/javascript"></script>
 <script src="{% static 'js/lib/js.cookie.js' %}" type="text/javascript"></script>
+<script src="{% static 'js/bot-utils.js' %}" type="text/javascript"></script>
 
 <script type="text/javascript">
-    var result; // Global variable that receives new value in ajax callback
-    // Helper function for sending requests to our Index view
-    function sendAjax(botui, input) {
-        $.ajax({
-            type: "POST",
-            url: "/",
-            data : { user_input: input },
 
-            success : function(data) {                
-                botui.message.add({
-                    delay: 2000,
-                    content: data.text
-                }).then(function () {
-                    // Setup button with promise
-                    if (data.answers.length != 0) {
-                        botui.action.button({
-                          action: data.answers
-                        }).then(function (res) {
-                            result = res.value
-                        });
-                    } else {
-                        botui.message.add({
-                            delay: 2000,
-                            content: '{% get_settings_value "DECISIONTREE_SESSION_END_MESSAGE" %}'
-                        })
-                    }
-                });
-
-            },
-            error: function() {
-                return "Internal Server Error";
+$('document').ready(function(){
+    // Boilerplate code from Django documentation
+    // https://docs.djangoproject.com/en/1.11/ref/csrf/#acquiring-the-token-if-csrf-use-sessions-is-false
+    var csrftoken = Cookies.get('csrftoken');
+    function csrfSafeMethod(method) {
+        return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+    }
+    // https://docs.djangoproject.com/en/1.11/ref/csrf/#setting-the-token-on-the-ajax-request
+    $.ajaxSetup({
+        beforeSend: function(xhr, settings) {
+            if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                xhr.setRequestHeader("X-CSRFToken", csrftoken);
             }
-        });
-    };
-
-    $('document').ready(function(){
-        // Boilerplate code from Django documentation
-        // https://docs.djangoproject.com/en/1.11/ref/csrf/#acquiring-the-token-if-csrf-use-sessions-is-false
-        // https://docs.djangoproject.com/en/1.11/ref/csrf/#setting-the-token-on-the-ajax-request
-        var csrftoken = Cookies.get('csrftoken');
-        function csrfSafeMethod(method) {
-            return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
         }
-        $.ajaxSetup({
-            beforeSend: function(xhr, settings) {
-                if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
-                    xhr.setRequestHeader("X-CSRFToken", csrftoken);
-                }
-            }
-        });
-
-        // Create BotUI.
-        var botui = new BotUI('ben-the-bot');
-
-        botui.message.add({
-          content: 'Ready to get started? Click "Connect."'
-        })
-        // Show initial trigger word
-        botui.action.button({
-          action: [
-            { 
-                text: 'Connect',
-                value: 'connect'
-            }
-          ]
-        }).then(function (res) {
-            result = res.value
-        });
-
-        // Listen for clicks
-        $(document).on('click','.botui-actions-buttons-button',function(){
-            sendAjax(botui, result);
-        });
-
     });
+
+    // Create BotUI.
+    var botui = new BotUI('ben-the-bot');
+
+    // Add welcome message, and show initial trigger word.
+    botui.message.add({
+        html: true,
+        cssClass: 'bot-msg',
+        content: prettyBENMsg('Ready to get started? Click "Connect."'),
+    })
+
+    botui.action.button({
+      action: [
+        { 
+            text: 'Connect',
+            value: 'connect'
+        }
+      ]
+    }).then(function (res) {
+        result = res.value
+    });
+
+    // Listen for clicks
+    $(document).on('click','.botui-actions-buttons-button',function(){
+        sendAjax(botui, result);
+    });
+
+}); 
 
 </script>
 {% endblock %}

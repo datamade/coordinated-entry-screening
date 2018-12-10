@@ -1,9 +1,11 @@
 var basic_config = {  
         chart: {
             type: 'bar',
+            borderColor: '#e7e7e7',
+            borderWidth: 2,
             style: {
                 fontFamily: 'Libre Franklin', 
-            }
+            },
         },
         title: {
             text: null
@@ -14,7 +16,7 @@ var basic_config = {
         credits: {
             enabled: false
         },
-    }
+    };
 
 function barHelper(container, prepped_data, data_map){
     custom_config = {
@@ -54,7 +56,7 @@ function barHelper(container, prepped_data, data_map){
                 "data": prepped_data
             }
         ]
-    }
+    };
 
     config = $.extend(basic_config, custom_config);
 
@@ -90,7 +92,7 @@ function stackedBarHelper(container, prepped_data, data_map){
                 color: '#fff',
                 style: {
                   textShadow: 'none',
-                  opacity: .8,
+                  opacity: 0.8,
                   fontWeight: 'bold'
                 }
               }
@@ -104,7 +106,7 @@ function stackedBarHelper(container, prepped_data, data_map){
             borderColor: '#3B4B5C',
         },
         series: prepped_data
-    }
+    };
 
     config = $.extend(basic_config, custom_config);
 

@@ -9,6 +9,7 @@ python:
 install:
 - pip install --upgrade pip
 - pip install --upgrade -r requirements.txt
+- npm install -g jshint
 sudo: required
 dist: trusty
 group: deprecated-2017Q4
@@ -23,6 +24,9 @@ before_script:
 script: 
 - python manage.py migrate
 - pytest
+- jshint --extract=always templates/*
+- jshint coordinated-entry-screening/static/js/bot-utils.js
+- jshint coordinated-entry-screening/static/js/dashboard-charts.js
 
 deploy:
   provider: codedeploy

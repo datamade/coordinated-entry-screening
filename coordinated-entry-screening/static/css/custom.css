@@ -14,10 +14,19 @@ html {
 body {
     font-family: 'Libre Franklin', sans-serif;
     margin-bottom: 60px;
+    /*background-color: #f7f7f7;*/
 }
 
 h1, h2, h3 {
     text-transform: uppercase;
+}
+
+a {
+    color: var(--blue);
+}
+
+a:hover {
+    color: var(--light-blue);
 }
 
 /* Custom Bootstrap utilities */
@@ -39,22 +48,69 @@ h1, h2, h3 {
     background-color: var(--light-blue);
 }
 
-/* Navbar and footer */
-nav {
+.nav-pills .nav-link.active, .nav-pills .show>.nav-link {
     background-color: var(--blue);
-    color: #fff;
 }
-.navbar-dark .navbar-nav .nav-link {
-    color: #fff;
+
+/* Navbar, Jumbotron, and Footer */
+nav {
+    background-color: #fff; /* Override background color of body */
+    /*border-bottom: 2px solid #e7e7e7;*/
+}
+
+.navbar-expand-lg .navbar-nav .nav-link {
+    color: var(--blue);
+    font-weight: 800;
+    font-size: 1.2em;
+    padding-right: .8rem;
+    padding-left: .8rem;
+}
+
+.navbar-nav {
+    border-bottom: 1px solid var(--blue);
+}
+
+
+.jumbotron {
+    background-color: var(--blue);
 }
 
 .footer {
-    background-color: var(--light-blue);
-    color: #fff; 
+    background-color: var(--blue);
     line-height: 60px;
-      position: absolute;
+    position: absolute;
     bottom: 0;
-    width: 100%;
+}
+
+/* Chatbot */
+.bot-msg img {
+    height: 44px;
+}
+
+.botui-actions-buttons button:focus {
+  outline: none;
+} 
+
+.ben-sidebar {
+    -ms-flex: 0 0 50px;
+    flex: 0 0 50px;
+    padding-right: 0px;
+} 
+
+.scroll {
+    height:450px;
+    max-height: 500px;
+    overflow-y: auto;
+}
+
+.card-body {
+    padding-bottom: 3em;
+}
+
+.card-header {
+    background-color: var(--blue);
+    border: 1px solid var(--blue);
+    color: #fff;
 }
 
 /* Dashboard charts */
