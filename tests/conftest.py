@@ -13,7 +13,7 @@ from decisiontree.models import Session, TreeState, Message, Tree, Transition, A
 @pytest.mark.django_db
 def db_setup(db, session):
     '''
-    Populate the database with one open, canceled, and completed session.
+    Populate the database with one open, canceled, and completed web session.
     '''
     initial_session = session.build() # Default session fixture creates an on open session
 
@@ -33,7 +33,7 @@ def db_setup(db, session):
 
 @pytest.fixture
 @pytest.mark.django_db
-def session(db, tree_state, connection, tree):
+def session(db, tree_state, web_connection, tree):
     class SessionFactory():
         def build(self, **kwargs):
             '''
@@ -47,7 +47,7 @@ def session(db, tree_state, connection, tree):
                 'state_id': state.id,
                 'tree_id': tree.id,
                 'num_tries': 0,
-                'connection_id': connection.id,
+                'connection_id': web_connection.id,
             }
 
             session_info.update(**kwargs)
@@ -87,7 +87,7 @@ def message(db):
     return MessageFactory()
 
 @pytest.fixture
-def incoming_message(db, connection):
+def incoming_message(db, web_connection):
     '''
     Factory for instantiating an IncomingMessage, i.e., the message
     from the user, which gets sent to the app (...or B.E.N.).
@@ -97,7 +97,7 @@ def incoming_message(db, connection):
 
             message_info = {
                 'text': 'connect',
-                'connection': connection
+                'connection': web_connection
             }
 
             incoming_message = IncomingMessage(**message_info)
@@ -185,13 +185,30 @@ def tree(db, tree_state):
 
 @pytest.fixture
 @pytest.mark.django_db
-def connection(db):
+def sms_connection(db):
     backend = Backend.objects.create(name='twilio-backend')
 
     connection_info = {
         'id': 1, 
         'created_on': '2018-08-15 16:10:32.180409-05',
         'backend_id': backend.id,
+        'identity': '+19998887777'
+    }
+
+    connection = Connection.objects.create(**connection_info)
+
+    return connection
+
+@pytest.fixture
+@pytest.mark.django_db
+def web_connection(db):
+    backend = Backend.objects.create(name='fake-backend')
+
+    connection_info = {
+        'id': 2, 
+        'created_on': '2018-09-15 16:10:32.180409-05',
+        'backend_id': backend.id,
+        'identity': 'web-5na9276lkul6etdtxnrzep7dihfzql0w'
     }
 
     connection = Connection.objects.create(**connection_info)

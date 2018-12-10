@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load static %}
+{% load admin_extras %}
 {% block title %}Dashboard{% endblock %}
 {% block content %}
 
@@ -7,44 +8,26 @@
     <div class='col-10 offset-1'>
         <div class='row mt-6'>
             <div class='col-12'>
-                <h2>Overview</h2>
-
-                <div class='row'>
-                    <div class='col p-5 text-center'>
-                        <h3>{{ open_sessions }}</h3>
-                        <p>Surveys currently in progress (started in the last 24 hours)</p>
+                
+                <ul class="nav nav-pills" id="myTab" role="tablist">
+                    <li><h2>Admin Dashboard</h2></li>
+                    <li class="nav-item">
+                        <a class="nav-link active" id="home-tab" data-toggle="tab" href="#text-messaging" role="tab" aria-controls="home" aria-selected="true">Text messaging</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="profile-tab" data-toggle="tab" href="#web" role="tab" aria-controls="profile" aria-selected="false">Web</a>
+                    </li>
+                </ul>
+                <div class="tab-content" id="myTabContent">
+                    <!-- Text messaging -->
+                    <div class="tab-pane fade show active" id="text-messaging" role="tabpanel" aria-labelledby="text-messaging-tab">
+                        {% include 'partials/dashboard-data.html' with type='sms' open_sessions=sms_open_sessions canceled_sessions=sms_canceled_sessions percentage_canceled=sms_percentage_canceled completed_sessions=sms_completed_sessions percentage_complete=sms_percentage_complete %}
                     </div>
-                    <div class='col p-5 text-center'>
-                        <h3>{{ percentage_complete | floatformat }}%</h3>
-                        <p>Percentage of surveys started that were completed</p>
-                    </div>
-                    <div class='col p-5 text-center'>
-                        <h3>{{ percentage_canceled | floatformat }}%</h3>
-                        <p>Percentage of surveys started that were canceled</p>
+                    <!-- Web -->
+                    <div class="tab-pane fade" id="web" role="tabpanel" aria-labelledby="web-tab">
+                        {% include 'partials/dashboard-data.html' with type='web' open_sessions=web_open_sessions canceled_sessions=web_canceled_sessions percentage_canceled=web_percentage_canceled completed_sessions=web_completed_sessions percentage_complete=web_percentage_complete %}
                     </div>
                 </div>
-            </div>
-        </div>
-        <div class='row mt-6'>
-            <div class='col-12'>
-                <h2>How did users end their sessions?</h2>
-                <h4><span class='badge badge-pill badge-primary'>{{ completed_sessions }}</span> Completed sessions</h4>
-                <p>These users completed the entire survey! This chart shows the last message or resource sent to the user.</p>
-                <div id="completed-chart" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
-            </div>
-        </div>
-        <div class='row mt-4'>
-            <div class='col-12'>
-                <h4><span class='badge badge-pill badge-primary'>{{ canceled_sessions }}</span> Canceled sessions</h4>
-                <p>These users canceled their session, either by instructing the tool to close their session (e.g. by typing "end") or by abandoning their session after 24 hours. This chart shows the question or resource on which users canceled their sessions.</p>
-                <div id="canceled-chart" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
-            </div>
-        </div>
-        <div class='row mt-6 mb-5'>
-            <div class='col-12'>
-                <h2>Which resources did B.E.N. recommend?</h2>
-                <p>This chart shows the total number of times each resource has been recommended on all surveys (open, completed, and closed).</p>
-                <div id="resources-chart" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
             </div>
         </div>
     </div>
@@ -53,24 +36,9 @@
 {% endblock %}
 
 {% block extra_javascript %}
-<script src="{% static 'js/lib/highcharts.js' %}"></script>
-<script src="{% static 'js/dashboard-charts.js' %}" type="text/javascript"></script>
-<script>
-    $(function() {
 
-        canceled_sessions_chart = JSON.parse('{{canceled_sessions_chart | escapejs}}');
-        canceled_sessions_map = JSON.parse('{{canceled_sessions_map | escapejs}}');
-        stackedBarHelper('canceled-chart', canceled_sessions_chart, canceled_sessions_map);
+    {% include 'partials/call-highcharts.html' with type='sms' canceled_sessions_chart=sms_canceled_sessions_chart canceled_sessions_map=sms_canceled_sessions_map completed_sessions_chart=sms_completed_sessions_chart completed_sessions_map=sms_completed_sessions_map resources_chart=sms_resources_chart resources_map=sms_resources_map %}
 
-        completed_sessions_chart = JSON.parse('{{completed_sessions_chart | escapejs}}');
-        completed_sessions_map = JSON.parse('{{completed_sessions_map | escapejs}}');
-        stackedBarHelper('completed-chart', completed_sessions_chart, completed_sessions_map);
-
-        resources_chart = JSON.parse('{{resources_chart | escapejs}}');
-        resources_map = JSON.parse('{{resources_map | escapejs}}');
-        barHelper('resources-chart', resources_chart, resources_map);
-
-    });
-</script>
+    {% include 'partials/call-highcharts.html' with type='web' canceled_sessions_chart=web_canceled_sessions_chart canceled_sessions_map=web_canceled_sessions_map completed_sessions_chart=web_completed_sessions_chart completed_sessions_map=web_completed_sessions_map resources_chart=web_resources_chart resources_map=sms_resources_map %}
 
 {% endblock extra_javascript %}

@@ -1,0 +1,19 @@
+{% load static %}
+
+<script src="{% static 'js/lib/highcharts.js' %}"></script>
+<script src="{% static 'js/dashboard-charts.js' %}" type="text/javascript"></script>
+<script>
+    $(function() {
+        canceled_sessions_chart = JSON.parse('{{canceled_sessions_chart | escapejs}}');
+        canceled_sessions_map = JSON.parse('{{canceled_sessions_map | escapejs}}');
+        stackedBarHelper('{{type}}-canceled-chart', canceled_sessions_chart, canceled_sessions_map);
+
+        completed_sessions_chart = JSON.parse('{{completed_sessions_chart | escapejs}}');
+        completed_sessions_map = JSON.parse('{{completed_sessions_map | escapejs}}');
+        stackedBarHelper('{{type}}-completed-chart', completed_sessions_chart, completed_sessions_map);
+
+        resources_chart = JSON.parse('{{resources_chart | escapejs}}');
+        resources_map = JSON.parse('{{resources_map | escapejs}}');
+        barHelper('{{type}}-resources-chart', resources_chart, resources_map);
+    });
+</script>
