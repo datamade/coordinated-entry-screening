@@ -1,3 +1,5 @@
+import sys
+
 SECRET_KEY = 'something truly secret'
 
 DEBUG = True
@@ -52,3 +54,30 @@ ALLOWED_HOSTS = ['.ngrok.io',
 
 INTERNAL_IPS = ['.ngrok.io',
                 '127.0.0.1']
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'verbose': {
+            'format': '%(levelname)s %(asctime)s %(message)s'
+        },
+    },
+    'handlers': {
+        'console': {
+            'level': 'ERROR',
+            'class': 'logging.StreamHandler',
+            'formatter': 'verbose',
+            'stream': sys.stdout
+        },
+        'sentry': {
+            'level': 'ERROR',
+            'class': 'raven.handlers.logging.SentryHandler',
+            'dsn': '',
+        },
+    },
+    'root': {
+        'handlers': ['console', 'sentry'],
+        'level': 'ERROR'
+    },
+}

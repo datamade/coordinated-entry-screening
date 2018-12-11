@@ -85,29 +85,6 @@ TEMPLATES = [
     },
 ]
 
-LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': False,
-    'handlers': {
-        'console': {
-            'level': 'DEBUG',
-            'class': 'logging.StreamHandler',
-        },
-        'null': {
-            'level': 'DEBUG',
-            'class': 'logging.NullHandler',
-        }
-    },
-    'root': {
-        'handlers': ['null'],
-    },
-    'loggers': {
-        'py.warnings': {
-            'handlers': ['console'],
-        },
-    }
-}
-
 DEFAULT_RESPONSE = "Not a valid message. Type 'connect' to begin a survey or 'bye' to exit."
 
 DECISIONTREE_SESSION_END_TRIGGER = 'bye'
