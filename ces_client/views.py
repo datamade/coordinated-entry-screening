@@ -4,6 +4,8 @@ from django.shortcuts import render
 from django.views import View
 from django.test.utils import override_settings
 from django.http import HttpResponse
+from django.utils.decorators import method_decorator
+from django.views.decorators.csrf import ensure_csrf_cookie
 
 from rapidsms.messages.incoming import IncomingMessage
 from rapidsms.models import Connection, Backend
@@ -19,6 +21,7 @@ class IndexView(View):
     session_listeners = {}
     web_router = WebRouter()
 
+    @method_decorator(ensure_csrf_cookie)
     def get(self, request, *args, **kwargs):
         # Delete the session key, if the user refreshes the page.
         request.session.flush()
@@ -26,6 +29,7 @@ class IndexView(View):
 
         return render(request, self.template_name)
 
+    @method_decorator(ensure_csrf_cookie)
     def post(self, request, *args, **kwargs):
         backend, _ = Backend.objects.get_or_create(name='fake-backend')
         identity = 'web-{}'.format(request.session.session_key)
