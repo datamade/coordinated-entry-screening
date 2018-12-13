@@ -32,15 +32,18 @@ class WebRouter(App):
             return 'Oh.', answers
 
         state, closing_state = self.find_user_state(msg)
+
         if not closing_state:
             text = state.message.text
+            prepped_text = self.prep_text_for_botui(text)
             answers = self.make_answers(state)
             
-            return text, answers
+            return prepped_text, answers
         else:
             # If the user does not have a closing_state, they completed the survey.
             # They should receive a list of resources and/or a "bye" message from B.E.N.
-            return state.message.text, answers
+            prepped_text = self.prep_text_for_botui(state.message.text)
+            return prepped_text, answers
 
     def find_user_state(self, msg):
         sessions = msg.connection.session_set.all().select_related('state')
@@ -66,3 +69,20 @@ class WebRouter(App):
                         'value': settings.DECISIONTREE_SESSION_END_TRIGGER})
 
         return answers
+
+    @staticmethod
+    def prep_text_for_botui(text):
+        '''
+        This function prepares the message text (as returned from the database)
+        for the BotUI object (see: index.html and bot-utils.js).
+
+        BotUI can handle html. So, this function replaces `\n` with 
+        the `<br>` tag.
+
+        The web interface also requires users to "click" rather than "type."
+        This function changes the text accordingly.
+        '''
+        text_with_br = text.replace('\n', '<br>')
+        prepped_text = text_with_br.replace('Type', 'Click')
+
+        return prepped_text

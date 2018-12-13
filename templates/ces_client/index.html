@@ -44,6 +44,7 @@
 <script type="text/javascript">
 
 $('document').ready(function(){
+    var endMsg = '{% get_settings_value "DECISIONTREE_SESSION_END_MESSAGE" %}'
     // Boilerplate code from Django documentation
     // https://docs.djangoproject.com/en/1.11/ref/csrf/#acquiring-the-token-if-csrf-use-sessions-is-false
     var csrftoken = Cookies.get('csrftoken');
@@ -82,7 +83,7 @@ $('document').ready(function(){
 
     // Listen for clicks
     $(document).on('click','.botui-actions-buttons-button',function(){
-        sendAjax(botui, result);
+        sendAjax(botui, result, endMsg);
     });
 
 }); 

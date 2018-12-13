@@ -29,3 +29,10 @@ def test_find_user_state(db_setup, incoming_message):
 
     assert state.name == "welcome"
     assert closing_state == True
+
+def test_prep_text_for_botui(texts):
+    web_router = WebRouter()
+
+    raw, prepped = texts
+
+    assert web_router.prep_text_for_botui(raw) == prepped

@@ -15,7 +15,7 @@ sets the value "result" (a global varible used to track user input)
 
 var result;
 
-function sendAjax(botui, input) {
+function sendAjax(botui, input, endMsg) {
     $.ajax({
         type: "POST",
         url: "/",
@@ -41,7 +41,7 @@ function sendAjax(botui, input) {
                         cssClass: 'bot-msg',
                         delay: 1500,
                         loading: true,
-                        content: prettyBENMsg('{% get_settings_value "DECISIONTREE_SESSION_END_MESSAGE" %}')
+                        content: prettyBENMsg(endMsg)
                     });
                 }
             }).then(function () {
