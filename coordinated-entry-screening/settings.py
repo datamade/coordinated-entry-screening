@@ -87,6 +87,8 @@ TEMPLATES = [
 
 DEFAULT_RESPONSE = "Not a valid message. Type 'connect' to begin a survey or 'bye' to exit."
 
+INVALID_ANSWER_RESPONSE = 'Sorry, I do not understand what you mean. Choose one of the following, or type "bye" to exit.'
+
 DECISIONTREE_SESSION_END_TRIGGER = 'bye'
 
 DECISIONTREE_SESSION_END_MESSAGE = "All right! You're all set. It was nice getting to know you, and remember: you can always reach me here."
