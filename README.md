@@ -65,16 +65,12 @@ TWILIO_NUMBER = '(312) 624-6268'
 
 **Step 4. Setup the database**
 
-`rapidsms-decision-tree` app requires a database for storing information about [messages, answers, and tree states](https://github.com/datamade/rapidsms-decisiontree-app/blob/master/decisiontree/models.py). Create your database.
+`rapidsms-decision-tree` app requires a database for storing information about [messages, answers, and tree states](https://github.com/datamade/rapidsms-decisiontree-app/blob/master/decisiontree/models.py). 
+
+The `data` directory has a dump of the winter 2018 survey. It is in custom archive format: you can restore it locally by running the following. [(Read more about dumping and restoring databases.)](https://github.com/datamade/tutorials/blob/master/Dump-and-restore-Postgres.md)
 
 ```bash
-createdb coordinated-entry-screening
-```
-
-Then, run migrations.
-
-```bash
-python manage.py migrate
+pg_restore -C -j4 --no-owner data/ces_fall2018.dump | psql
 ```
 
 Create an admin user. Set a username and password when prompted.
@@ -82,8 +78,6 @@ Create an admin user. Set a username and password when prompted.
 ```bash
 python manage.py createsuperuser
 ```
-
-*DataMakers with staging server access!* You can use the web interface (i.e., the `/surveys/` endpoint – see below) to create whatever survey data you like. However, to get started with development, consider dumping the CES staging database and restoring it on your local machine. [Follow this tutorial.](https://github.com/datamade/tutorials/blob/master/Dump-and-restore-Postgres.md) Note! If you use this option, you must first drop your database. 
 
 ## Run the tool
 
