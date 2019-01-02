@@ -28,7 +28,7 @@ class Command(BaseCommand):
         filter_for_abandoned = Q(session__last_modified__lte=one_day_ago)
 
         # Use the `startswith` filter to exclude sessions that 
-        # have already been hased or are websessions. 
+        # have already been hashed or are websessions. 
         sms_connections = Connection.objects \
                                     .filter(filter_for_canceled_or_completed | filter_for_abandoned) \
                                     .filter(identity__startswith='+1') \
