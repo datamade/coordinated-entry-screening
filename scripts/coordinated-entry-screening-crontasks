@@ -1,0 +1,2 @@
+# /etc/cron.d/coordinated-entry-screening-crontasks
+5 * * * * datamade /home/datamade/.virtualenvs/coordinated-entry-screening/bin/python manage.py hash_identities >> /var/log/coordinated-entry-screening-hash.log 2>&1
