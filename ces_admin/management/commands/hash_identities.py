@@ -15,6 +15,8 @@ class Command(BaseCommand):
         '''
 
     def handle(self, *args, **options):
+        timestamp = str(datetime.datetime.now())
+        self.stdout.write(self.style.NOTICE('{}: Run the script!').format(timestamp))
         # Rename Django's make_password to best describe what the code does.
         hash_identity = make_password
         # five_minutes_ago excludes sessions from the last five minutes, 
@@ -41,4 +43,4 @@ class Command(BaseCommand):
             connection.identity = hashed_identity
             connection.save()
 
-            self.stdout.write(self.style.SUCCESS('Successfully hashed identity'))
+            self.stdout.write(self.style.SUCCESS('Successfully hashed an identity'))
