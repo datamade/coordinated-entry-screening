@@ -10,7 +10,7 @@ from decisiontree.models import Session
 class Command(BaseCommand):
     help = '''
         This command hashes identities (i.e., phone numbers) of users
-        who completed, canceled, or abandoned the survey.  
+        who canceled, completed, or abandoned the survey.  
         '''
 
     def handle(self, *args, **options):
@@ -20,17 +20,18 @@ class Command(BaseCommand):
         five_minutes_ago = datetime.datetime.now() - datetime.timedelta(minutes=5)
         one_day_ago = datetime.datetime.now() - datetime.timedelta(days=1)
 
-        filter_for_closed = Q(session__state_id__isnull=True, session__last_modified__lte=five_minutes_ago)
+        filter_for_canceled_or_completed = Q(session__state_id__isnull=True, \
+                                             session__last_modified__lte=five_minutes_ago)
         filter_for_abandoned = Q(session__last_modified__lte=one_day_ago)
 
         # Use the `startswith` filter to exclude sessions that 
         # have already been hased or are websessions. 
-        connections_from_closed_sessions = Connection.objects \
-                                                     .filter(filter_for_closed | filter_for_abandoned) \
-                                                     .filter(identity__startswith='+1') \
-                                                     .distinct()
+        sms_connections = Connection.objects \
+                                    .filter(filter_for_canceled_or_completed | filter_for_abandoned) \
+                                    .filter(identity__startswith='+1') \
+                                    .distinct()
 
-        for connection in connections_from_closed_sessions:
+        for connection in sms_connections:
             identity = connection.identity
             hashed_identity = hashlib.sha256(identity.encode()).hexdigest()
 
