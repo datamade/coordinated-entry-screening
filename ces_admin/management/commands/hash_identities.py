@@ -3,6 +3,7 @@ import hashlib
 
 from django.core.management.base import BaseCommand
 from django.db.models import Q
+from  django.contrib.auth.hashers import make_password, check_password
 
 from rapidsms.models import Connection
 from decisiontree.models import Session
@@ -16,7 +17,7 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         # five_minutes_ago excludes sessions from the last five minutes, 
         # since Rapidsms and Twilio may have a communication delay, during which
-        # our app still needs access to the unhashed phone number   
+        # our app still needs access to the unhashed phone number.   
         five_minutes_ago = datetime.datetime.now() - datetime.timedelta(minutes=5)
         one_day_ago = datetime.datetime.now() - datetime.timedelta(days=1)
 
@@ -33,7 +34,7 @@ class Command(BaseCommand):
 
         for connection in sms_connections:
             identity = connection.identity
-            hashed_identity = hashlib.sha256(identity.encode()).hexdigest()
+            hashed_identity = make_password(identity)
 
             connection.identity = hashed_identity
             connection.save()
