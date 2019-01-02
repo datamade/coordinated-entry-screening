@@ -8,17 +8,23 @@ from rapidsms.models import Connection
 from decisiontree.models import Session
 
 class Command(BaseCommand):
-    help = 'Hashes the user identities, i.e., phone numbers'
+    help = '''
+        This command hashes identities (i.e., phone numbers) of users
+        who completed, canceled, or abandoned the survey.  
+        '''
 
     def handle(self, *args, **options):
+        # five_minutes_ago excludes sessions from the last five minutes, 
+        # since Rapidsms and Twilio may have a communication delay, during which
+        # our app still needs access to the unhashed phone number   
         five_minutes_ago = datetime.datetime.now() - datetime.timedelta(minutes=5)
         one_day_ago = datetime.datetime.now() - datetime.timedelta(days=1)
-        # Find connections from sessions that do not have a state_id, i.e., the user completed the survey or canceled their session
-        # Add a five minute boundary, in the rare event that Rapidsms or Twilio 
-        # Exclude sessions that have already been hased or are websessions. 
+
         filter_for_closed = Q(session__state_id__isnull=True, session__last_modified__lte=five_minutes_ago)
         filter_for_abandoned = Q(session__last_modified__lte=one_day_ago)
 
+        # Use the `startswith` filter to exclude sessions that 
+        # have already been hased or are websessions. 
         connections_from_closed_sessions = Connection.objects \
                                                      .filter(filter_for_closed | filter_for_abandoned) \
                                                      .filter(identity__startswith='+1') \
