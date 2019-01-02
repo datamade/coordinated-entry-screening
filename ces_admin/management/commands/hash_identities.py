@@ -15,6 +15,8 @@ class Command(BaseCommand):
         '''
 
     def handle(self, *args, **options):
+        # Rename Django's make_password to best describe what the code does.
+        hash_identity = make_password
         # five_minutes_ago excludes sessions from the last five minutes, 
         # since Rapidsms and Twilio may have a communication delay, during which
         # our app still needs access to the unhashed phone number.   
@@ -34,7 +36,7 @@ class Command(BaseCommand):
 
         for connection in sms_connections:
             identity = connection.identity
-            hashed_identity = make_password(identity)
+            hashed_identity = hash_identity(identity)
 
             connection.identity = hashed_identity
             connection.save()
