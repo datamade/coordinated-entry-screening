@@ -1,19 +1,13 @@
 #!/bin/bash
 
-# Cause entire deployment to fail if supervisor fails
+# Cause the entire deployment to fail if something in this script exits with
+# a non-zero exit code. This will make debugging your deployment much simpler.
+# Read more about this here: http://redsymbol.net/articles/unofficial-bash-strict-mode/
+
 set -euo pipefail
 
-# Make project directory if it doesn't exist. This is mainly to ensure that these scripts work on a bare server
-if [ "$DEPLOYMENT_GROUP_NAME" == "staging" ]
-then
-    rm -Rf /home/datamade/coordinated-entry-screening
-    mkdir -p /home/datamade/coordinated-entry-screening
-fi
-# if [ "$DEPLOYMENT_GROUP_NAME" == "production" ]
-# then
-#     rm -Rf /home/datamade/coordinated-entry-screening
-#     mkdir -p /home/datamade/coordinated-entry-screening
-# fi
+# Make directory for project
+mkdir -p /home/datamade/coordinated-entry-screening
 
 # Decrypt files encrypted with blackbox
 cd /opt/codedeploy-agent/deployment-root/$DEPLOYMENT_GROUP_ID/$DEPLOYMENT_ID/deployment-archive/ && chown -R datamade.datamade . && sudo -H -u datamade blackbox_postdeploy

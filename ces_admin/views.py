@@ -8,7 +8,6 @@ from django.views.generic.base import TemplateView
 
 from .mixins import DashboardContextMixin
 
-
 def ces_login(request):
     if request.method == 'POST':
         form = AuthenticationForm(data=request.POST)
@@ -39,3 +38,15 @@ class DashboardView(DashboardContextMixin, TemplateView):
         context.update(self.recommendations())
         
         return context
+
+# For deployment
+# https://github.com/datamade/deploy-a-site/blob/master/Zero-Downtime-Deployment.md#create-pong-route
+def pong(request):
+    from django.http import HttpResponse
+
+    try:
+        from .deployment import DEPLOYMENT_ID
+    except ImportError:
+        return HttpResponse('Bad deployment', status=401)
+
+    return HttpResponse(DEPLOYMENT_ID)
