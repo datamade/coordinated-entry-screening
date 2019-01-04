@@ -23,7 +23,7 @@ if __name__ == "__main__":
         context = {
             'deployment_id': deployment_id,
             'domain': domain,
-            'app_name', app_name,
+            'app_name': app_name,
         }
         nginx_rendered = nginx_conf.render(context)
 
@@ -31,7 +31,7 @@ if __name__ == "__main__":
         supervisor_conf = Template(f.read())
         context = {
             'deployment_id': deployment_id,
-            'app_name', app_name,
+            'app_name': app_name,
         }
         supervisor_rendered = supervisor_conf.render(context)
 
