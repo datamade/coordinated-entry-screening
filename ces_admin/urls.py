@@ -8,8 +8,5 @@ urlpatterns = [
     url(r'^ces-login/$', ces_login, name='ces_login'),
     url(r'^ces-logout/$', ces_logout, name='ces_logout'),
     url(r'^dashboard/$', login_required(DashboardView.as_view(), login_url='/ces-login/'), name='dashboard'),
-]
-
-urlpatterns += [
     url(r'^pong/$', pong,),
 ]
