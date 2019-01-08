@@ -29,7 +29,7 @@ class WebRouter(App):
         answers = []
         
         if msg.text == settings.DECISIONTREE_SESSION_END_TRIGGER:
-            return 'Oh.', answers
+            return settings.DECISIONTREE_SESSION_END_MESSAGE, answers
 
         state, closing_state = self.find_user_state(msg)
 
@@ -62,7 +62,7 @@ class WebRouter(App):
         transition_set = Transition.objects.filter(current_state=state).order_by('answer')
 
         for t in transition_set:
-            answers.append({'text': t.answer.helper_text(),
+            answers.append({'text': t.answer.helper_text().replace('Type', 'Click'),
                             'value': t.answer.answer})
         
         answers.append({'text': 'Goodbye!',

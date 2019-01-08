@@ -9,7 +9,7 @@
 
     <link rel="stylesheet" href="{% static "css/bootstrap.min.css" %}" type="text/css" media="screen" />
     <link rel="shortcut icon" href="{% static "img/favicon.ico" %}" />
-    <link href="https://fonts.googleapis.com/css?family=Libre+Franklin" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Libre+Franklin|Lato:900" rel="stylesheet">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.2/css/all.css" />
     <link rel="stylesheet" href="{% static "css/custom.css" %}" type="text/css" />
     {% block extra_css %}{% endblock %}
@@ -17,26 +17,25 @@
 <body>
 
     <nav class="navbar navbar-expand-lg">
-        <a class='navbar-brand' href="{% url 'index' %}">
-            <img src="{% static 'images/connect-icon.png' %}" class="img-fluid" width="110px">
-            <!-- Connect to End Homelessness -->
-        </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ml-auto">
-                <li class="nav-item">
+                <li>
+                    <a class="nav-link" href="{% url 'index' %}"><img src="{% static 'images/CESlogo.svg' %}" width="30" height="30"></a>
+                </li>
+                <li class="nav-item pl-4">
                     <a class="nav-link" href="#">About</a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item pl-4">
                     <a class="nav-link" href="#">Contact Us</a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item pl-4">
                     <a class="nav-link" href="#">Useful Links</a>
                 </li>
                 {% if request.user.is_authenticated %}
-                <li class="nav-item">
+                <li class="nav-item pl-4">
                     <a class="nav-link" href="{% url 'ces_logout'%}"><i class="fas fa-user-circle"></i>&nbsp;<strong>{{ user.get_username }}</strong> | Logout</a>
                 </li>
                 {% endif %}

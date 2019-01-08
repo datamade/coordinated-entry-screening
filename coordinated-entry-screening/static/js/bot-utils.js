@@ -29,21 +29,11 @@ function sendAjax(botui, input, endMsg) {
                 loading: true,
                 content: prettyBENMsg(data.text)
             }).then(function () {
-                if (data.answers.length != 0) {
-                    botui.action.button({
+                botui.action.button({
                       action: data.answers
                     }).then(function (res) {
                         result = res.value;
                     });
-                } else {
-                    botui.message.add({
-                        html: true,
-                        cssClass: 'bot-msg',
-                        delay: 1500,
-                        loading: true,
-                        content: prettyBENMsg(endMsg)
-                    });
-                }
             }).then(function () {
                 getMessages();
             });

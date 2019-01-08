@@ -14,25 +14,29 @@ html {
 body {
     font-family: 'Libre Franklin', sans-serif;
     margin-bottom: 60px;
-    /*background-color: #f7f7f7;*/
 }
 
 h1, h2, h3 {
     text-transform: uppercase;
+    font-family: 'Lato', sans-serif;
 }
 
-a {
-    color: var(--blue);
+a { 
+    color: var(--blue); 
 }
 
-a:hover {
-    color: var(--light-blue);
+a:hover { 
+    color: var(--light-blue); 
+}
+
+p {
+    font-size: 16px;
 }
 
 /* Custom Bootstrap utilities */
 .mt-6 {
-    margin-top: 4em; 
     /* A custom class inspired by: getbootstrap.com/docs/4.1/utilities/spacing/#examples */
+    margin-top: 4em; 
 }
 
 .badge-primary {
@@ -52,27 +56,16 @@ a:hover {
     background-color: var(--blue);
 }
 
-/* Navbar, Jumbotron, and Footer */
+/* Navbar and Footer */
 nav {
     background-color: #fff; /* Override background color of body */
-    /*border-bottom: 2px solid #e7e7e7;*/
+    font-family: 'Lato', sans-serif;
 }
 
 .navbar-expand-lg .navbar-nav .nav-link {
     color: var(--blue);
     font-weight: 800;
     font-size: 1.2em;
-    padding-right: .8rem;
-    padding-left: .8rem;
-}
-
-.navbar-nav {
-    border-bottom: 1px solid var(--blue);
-}
-
-
-.jumbotron {
-    background-color: var(--blue);
 }
 
 .footer {
@@ -83,8 +76,12 @@ nav {
 }
 
 /* Chatbot */
+.bot-msg, .botui-actions-buttons, .botui-message-content, .card-header {
+    font-size: 16px;
+}
+
 .bot-msg img {
-    height: 44px;
+    height: 50px;
 }
 
 .botui-actions-buttons button:focus {
