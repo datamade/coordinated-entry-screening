@@ -25,7 +25,7 @@ function sendAjax(botui, input, endMsg) {
             botui.message.add({
                 html: true,
                 cssClass: 'bot-msg',
-                delay: 1500,
+                delay: 1000,
                 loading: true,
                 content: prettyBENMsg(data.text)
             }).then(function () {

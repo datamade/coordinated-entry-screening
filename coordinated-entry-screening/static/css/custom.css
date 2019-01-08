@@ -80,6 +80,15 @@ nav {
     font-size: 16px;
 }
 
+.bot-msg div {
+    padding-bottom: 4px;
+}
+
+.botui-message-content {
+    line-height: 1.4;
+    max-width: 70%;
+}
+
 .bot-msg img {
     height: 50px;
 }

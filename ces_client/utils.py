@@ -82,7 +82,8 @@ class WebRouter(App):
         The web interface also requires users to "click" rather than "type."
         This function changes the text accordingly.
         '''
-        text_with_br = text.replace('\n', '<br>')
+        #  LOOK AT THIS
+        text_with_br = text.replace('\n\n', '\n').replace('\n', '<br><br>')
         prepped_text = text_with_br.replace('Type', 'Click')
 
         return prepped_text

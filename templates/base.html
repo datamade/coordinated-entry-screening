@@ -11,8 +11,8 @@
     <link rel="shortcut icon" href="{% static "img/favicon.ico" %}" />
     <link href="https://fonts.googleapis.com/css?family=Libre+Franklin|Lato:900" rel="stylesheet">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.2/css/all.css" />
-    <link rel="stylesheet" href="{% static "css/custom.css" %}" type="text/css" />
     {% block extra_css %}{% endblock %}
+    <link rel="stylesheet" href="{% static "css/custom.css" %}" type="text/css" />
 </head>
 <body>
 
@@ -22,9 +22,6 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ml-auto">
-                <li>
-                    <a class="nav-link" href="{% url 'index' %}"><img src="{% static 'images/CESlogo.svg' %}" width="30" height="30"></a>
-                </li>
                 <li class="nav-item pl-4">
                     <a class="nav-link" href="#">About</a>
                 </li>
