@@ -65,7 +65,7 @@ class WebRouter(App):
             answers.append({'text': t.answer.helper_text().replace('Type', 'Click'),
                             'value': t.answer.answer})
         
-        answers.append({'text': 'Goodbye!',
+        answers.append({'text': 'Goodbye',
                         'value': settings.DECISIONTREE_SESSION_END_TRIGGER})
 
         return answers
@@ -82,8 +82,7 @@ class WebRouter(App):
         The web interface also requires users to "click" rather than "type."
         This function changes the text accordingly.
         '''
-        #  LOOK AT THIS
-        text_with_br = text.replace('\n\n', '\n').replace('\n', '<br><br>')
+        text_with_br = text.replace('\r\n\r\n', '\n').replace('\n', '<br><br>')
         prepped_text = text_with_br.replace('Type', 'Click')
 
         return prepped_text
