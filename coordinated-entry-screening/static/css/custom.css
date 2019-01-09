@@ -98,7 +98,7 @@ nav {
 }
 
 .botui-actions-buttons button:focus {
-  outline: none;
+    outline: none;
 }
 
 .ben-sidebar {
@@ -108,7 +108,7 @@ nav {
 }
 
 .scroll {
-    height:450px;
+    height: 450px;
     max-height: 500px;
     overflow-y: auto;
 }
@@ -128,49 +128,47 @@ nav {
     max-width: 70%;
 }
 
-@media (max-width: 47.9em) {
+@media (max-width: 600px) {
+    /* B.E.N. styles */
     .botui-message-content {
         max-width: 100%;
     }
-}
 
-@media (max-width: 600px) {
-    /* B.E.N. styles */
     .botui-message.bot-msg {
-      margin: 0;
+        margin: 0;
     }
 
     .botui-messages-container {
-      padding-bottom: 0;
+        padding-bottom: 0;
     }
 
     .botui-message-content.text {
-      line-height: 1.6;
-      font-size: 12px;
+        line-height: 1.6;
+        font-size: 12px;
     }
 
     .ben-sidebar {
-      padding-left: 5px;
-      padding-right: 2px;
+        padding-left: 5px;
+        padding-right: 2px;
     }
 
     .ben-words {
-      padding: 0;
+        padding: 0;
     }
 
     .ben-words-content {
-      margin-right: 10px;
-      padding-right: 5px;
+        margin-right: 10px;
+        padding-right: 5px;
     }
 
     div.card-body.scroll {
-      padding: 0;
+        padding: 0;
     }
 
     /* User answer styles */
     .botui-actions-container {
-      padding-top: 5px;
-      padding-bottom: 5px;
+        padding-top: 5px;
+        padding-bottom: 5px;
     }
 
     .botui-actions-buttons {
@@ -178,12 +176,9 @@ nav {
     }
 
     button.botui-actions-buttons-button {
-      margin-top: 5px;
-      margin-bottom: 5px;
+        margin-top: 5px;
+        margin-bottom: 5px;
     }
-
-
-
 }
 
 /* Dashboard charts */
