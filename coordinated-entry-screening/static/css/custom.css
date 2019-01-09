@@ -7,7 +7,7 @@
 
 html {
     /*Required for: getbootstrap.com/docs/4.0/examples/sticky-footer/ */
-    position: relative; 
+    position: relative;
     min-height: 100%;
 }
 
@@ -21,12 +21,12 @@ h1, h2, h3 {
     font-family: 'Lato', sans-serif;
 }
 
-a { 
-    color: var(--blue); 
+a {
+    color: var(--blue);
 }
 
-a:hover { 
-    color: var(--light-blue); 
+a:hover {
+    color: var(--light-blue);
 }
 
 p {
@@ -36,7 +36,7 @@ p {
 /* Custom Bootstrap utilities */
 .mt-6 {
     /* A custom class inspired by: getbootstrap.com/docs/4.1/utilities/spacing/#examples */
-    margin-top: 4em; 
+    margin-top: 4em;
 }
 
 .badge-primary {
@@ -99,13 +99,13 @@ nav {
 
 .botui-actions-buttons button:focus {
   outline: none;
-} 
+}
 
 .ben-sidebar {
     -ms-flex: 0 0 50px;
     flex: 0 0 50px;
     padding-right: 0px;
-} 
+}
 
 .scroll {
     height:450px;
@@ -132,6 +132,58 @@ nav {
     .botui-message-content {
         max-width: 100%;
     }
+}
+
+@media (max-width: 600px) {
+    /* B.E.N. styles */
+    .botui-message.bot-msg {
+      margin: 0;
+    }
+
+    .botui-messages-container {
+      padding-bottom: 0;
+    }
+
+    .botui-message-content.text {
+      line-height: 1.6;
+      font-size: 12px;
+    }
+
+    .ben-sidebar {
+      padding-left: 5px;
+      padding-right: 2px;
+    }
+
+    .ben-words {
+      padding: 0;
+    }
+
+    .ben-words-content {
+      margin-right: 10px;
+      padding-right: 5px;
+    }
+
+    div.card-body.scroll {
+      padding: 0;
+    }
+
+    /* User answer styles */
+    .botui-actions-container {
+      padding-top: 5px;
+      padding-bottom: 5px;
+    }
+
+    .botui-actions-buttons {
+       font-size: 12px;
+    }
+
+    button.botui-actions-buttons-button {
+      margin-top: 5px;
+      margin-bottom: 5px;
+    }
+
+
+
 }
 
 /* Dashboard charts */
