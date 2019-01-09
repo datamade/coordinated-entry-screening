@@ -68,6 +68,15 @@ nav {
     font-size: 1.2em;
 }
 
+.navbar-toggler {
+    border: 1px solid var(--blue);
+    background-color: var(--blue);
+}
+
+.fa-bars {
+    color: #fff;
+}
+
 .footer {
     background-color: var(--blue);
     line-height: 60px;
