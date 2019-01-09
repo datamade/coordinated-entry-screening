@@ -1,20 +1,27 @@
 {% extends "base.html" %}
 {% load static %}
 {% load ces_client_extras %}
-{% block title %}Index{% endblock %}
+{% block title %}Connect{% endblock %}
 
 {% block extra_css %}
     <link rel="stylesheet" href="{% static 'css/botui.min.css' %}" />
     <link rel="stylesheet" href="{% static 'css/botui-theme-default.css' %}" />
 {% endblock %}
 
-{% block content %}  
+{% block content %}
 
 <div class='row'>
     <div class='col-10 offset-1 mt-5 mb-3 pb-3'>
-        <h3>Connect to End Homelessness</h3>
-        <h4>A unified community response from the Corporation for Supportive Housing</h4>
-        <p>Are you looking for a place to stay tonight? Are you experiencing some form of homelessness? Talk to B.E.N. He will help guide you to your next location. Click "Goodbye!" or refresh the page.</p>
+        <div class='row mb-3'>
+            <div class='col-lg-2 pr-0'>
+                <a class="img-fluid float-left mr-0" href="{% url 'index' %}"><img src="{% static 'images/CESlogo.svg' %}" width='100'></a>
+            </div>
+            <div class='col'>
+                <h3 class='mt-4'>Connect to End Homelessness</h3>
+                <h4>A unified community response</h4>
+            </div>
+        </div>
+        <p class='mt-4'>This site helps people experiencing homelessness find appropriate resources. If you need help, please talk to the bot B.E.N. in the chat window below. He will ask you questions and, when possible, recommend a phone number to call or address to go to. If you want to exit, then click "Goodbye".</p>
     </div>
 </div>
 
@@ -22,7 +29,7 @@
     <div class='col-10 offset-1'>
         <div class="card">
             <div class="card-header">
-                Start talking to B.E.N.
+                <strong>Start talking to B.E.N.</strong>
             </div>
             <div class="card-body scroll">
                 <div id="ben-the-bot">
@@ -31,7 +38,7 @@
             </div>
         </div>
     </div>
-</div> 
+</div>
 
 {% endblock %}
 
@@ -72,7 +79,7 @@ $('document').ready(function(){
 
     botui.action.button({
       action: [
-        { 
+        {
             text: 'Connect',
             value: 'connect'
         }
@@ -86,7 +93,7 @@ $('document').ready(function(){
         sendAjax(botui, result, endMsg);
     });
 
-}); 
+});
 
 </script>
 {% endblock %}
