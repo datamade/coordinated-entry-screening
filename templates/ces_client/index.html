@@ -8,12 +8,12 @@
     <link rel="stylesheet" href="{% static 'css/botui-theme-default.css' %}" />
 {% endblock %}
 
-{% block content %}  
+{% block content %}
 
 <div class='row'>
     <div class='col-10 offset-1 mt-5 mb-3 pb-3'>
         <div class='row mb-3'>
-            <div class='col-md-2 pr-0'>
+            <div class='col-lg-2 pr-0'>
                 <a class="img-fluid float-left mr-0" href="{% url 'index' %}"><img src="{% static 'images/CESlogo.svg' %}" width='100'></a>
             </div>
             <div class='col'>
@@ -38,7 +38,7 @@
             </div>
         </div>
     </div>
-</div> 
+</div>
 
 {% endblock %}
 
@@ -79,7 +79,7 @@ $('document').ready(function(){
 
     botui.action.button({
       action: [
-        { 
+        {
             text: 'Connect',
             value: 'connect'
         }
@@ -93,7 +93,7 @@ $('document').ready(function(){
         sendAjax(botui, result, endMsg);
     });
 
-}); 
+});
 
 </script>
 {% endblock %}
