@@ -93,11 +93,6 @@ nav {
     padding-bottom: 4px;
 }
 
-.botui-message-content {
-    line-height: 1.4;
-    max-width: 70%;
-}
-
 .bot-msg img {
     height: 50px;
 }
@@ -126,6 +121,17 @@ nav {
     background-color: var(--blue);
     border: 1px solid var(--blue);
     color: #fff;
+}
+
+.botui-message-content {
+    line-height: 1.4;
+    max-width: 70%;
+}
+
+@media (max-width: 47.9em) {
+    .botui-message-content {
+        max-width: 100%;
+    }
 }
 
 /* Dashboard charts */
