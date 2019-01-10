@@ -8,3 +8,4 @@ gunicorn==19.6.0
 pytest-django==3.4.3
 raven==6.9.0
 csvkit==1.0.3
+mock==2.0.0

@@ -14,11 +14,13 @@ static/**
 /keyrings/live/secring.gpg
 /configs/coordinated-entry-screening-staging.conf.nginx
 /configs/coordinated-entry-screening-staging.conf.supervisor
-/scripts/app_stop.sh
 /scripts/app_start.sh
 /scripts/after_install.sh
-/configs/settings_deployment.py
 
 # test data
 ces.dump
 ces2.dump
+/configs/settings_deployment.production.py
+/configs/settings_deployment.staging.py
+/configs/coordinated-entry-screening-production.conf.supervisor
+/configs/coordinated-entry-screening-production.conf.nginx

@@ -217,8 +217,8 @@ def web_connection(db):
 
 # Parameterization of fixtures for web_router tests.
 texts = [
-    ("Hi. \n I am B.E.N.", "Hi. <br> I am B.E.N."),
-    ("Hi. \n\n I am B.E.N.", "Hi. <br><br> I am B.E.N."), 
+    ("Hi. \n I am B.E.N.", "Hi. <br><br> I am B.E.N."),
+    ("Hi. \r\n\r\n I am B.E.N.", "Hi. <br><br> I am B.E.N."), 
     ("Type 1, 2, or 3", "Click 1, 2, or 3"), 
     ("A new type of resource", "A new type of resource"),
 ]

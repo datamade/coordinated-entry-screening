@@ -29,7 +29,7 @@ class WebRouter(App):
         answers = []
         
         if msg.text == settings.DECISIONTREE_SESSION_END_TRIGGER:
-            return 'Oh.', answers
+            return settings.DECISIONTREE_SESSION_END_MESSAGE, answers
 
         state, closing_state = self.find_user_state(msg)
 
@@ -62,10 +62,10 @@ class WebRouter(App):
         transition_set = Transition.objects.filter(current_state=state).order_by('answer')
 
         for t in transition_set:
-            answers.append({'text': t.answer.helper_text(),
+            answers.append({'text': t.answer.helper_text().replace('Type', 'Click'),
                             'value': t.answer.answer})
         
-        answers.append({'text': 'Goodbye!',
+        answers.append({'text': 'Goodbye',
                         'value': settings.DECISIONTREE_SESSION_END_TRIGGER})
 
         return answers
@@ -82,7 +82,7 @@ class WebRouter(App):
         The web interface also requires users to "click" rather than "type."
         This function changes the text accordingly.
         '''
-        text_with_br = text.replace('\n', '<br>')
+        text_with_br = text.replace('\r\n\r\n', '\n').replace('\n', '<br><br>')
         prepped_text = text_with_br.replace('Type', 'Click')
 
         return prepped_text
