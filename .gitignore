@@ -17,10 +17,11 @@ static/**
 /scripts/app_start.sh
 /scripts/after_install.sh
 
-# test data
-ces.dump
-ces2.dump
 /configs/settings_deployment.production.py
 /configs/settings_deployment.staging.py
 /configs/coordinated-entry-screening-production.conf.supervisor
 /configs/coordinated-entry-screening-production.conf.nginx
+
+# Make
+location_codes.csv
+location_codes_ported

@@ -1,46 +1,42 @@
 import csv
+import sys
+import os
 
-from django.core.management.base import BaseCommand
+def import_codes():
+    '''
+    Imports a csv file to create Tree objects with location-specific trigger words.
 
-from decisiontree.models import Tree, TreeState
+    The command expects the database to have a TreeState object with the name: "Welcome (city)."
+    This differentiates it from the generic TreeState (i.e., the one called "Welcome", 
+    triggered by the keyword "connect").
+    '''
+    reader = csv.DictReader(sys.stdin)
 
-class Command(BaseCommand):
-    help = '''
-        Imports an xlsx file (provided by CSH) to create Tree objects 
-        with location-specific trigger words.
+    for row in reader:
+        root_state = TreeState.objects.filter(name__icontains='Welcome (city)').first()
 
-        `python manage.py port_location_codes`
+        padded_code = row['Code'].zfill(4)
+        
+        tree_info = {
+            'trigger': padded_code,
+            'root_state': root_state,
+            'summary': 'city',
+        }
 
-        The command expects the database to have TreeState objects with the following names:
-        (1) Welcome (city)
-        (2) Welcome (suburbs)
-        '''
-    
-    def add_arguments(self, parser):
-        parser.add_argument('csvfile', help='Name of CSV file to port')
+        tree, created = Tree.objects.get_or_create(**tree_info)
 
-    def handle(self, *args, **options):
-        csvfile_name = options['csvfile']
+        if created:
+            sys.stdout.write('Created {}'.format(tree))
 
-        with open('data/{}'.format(csvfile_name)) as csvfile:
-            reader = csv.DictReader(csvfile)
+    sys.stdout.write('Successfully processed CSV!')
 
-            for row in reader:
-                root_state = TreeState.objects.filter(name__icontains='Welcome') \
-                                              .filter(name__icontains=row['location_type'].lower()) \
-                                              .first()
+if __name__ == "__main__":
+    sys.path.append('..')
+    os.environ.setdefault("DJANGO_SETTINGS_MODULE", "coordinated-entry-screening.settings")
 
-                tree_info = {
-                    'trigger': row['code'],
-                    'root_state': root_state,
-                    'summary': row['location_type'],
-                }
-                tree, created = Tree.objects.get_or_create(**tree_info)
+    from django.core.wsgi import get_wsgi_application
+    application = get_wsgi_application()
 
-                if created:
-                    self.stdout.write(self.style.NOTICE('Created {}'.format(tree)))
+    from decisiontree.models import Tree, TreeState
 
-        self.stdout.write(self.style.SUCCESS('Successfully processed CSV!'))
-
-    def xlsx_to_csv():
-        'data/CES\ Connect\ Flyer\ Locations_2019.xlsx'
+    import_codes()
