@@ -23,7 +23,9 @@ The Coordinated Entry Screening tool leverages the power of RapidSMS [(a framewo
 
 ### Getting started
 
-**Step 1. Create a Twilio trial account and phone number**
+**Step 1. Create a Twilio trial account and phone number** 
+
+*Note! You might not be developing the text-messaging aspect of this tool. If so, you can skip Step 1 and leave blank `ACCOUNT_SID`, `AUTH_TOKEN`, and `TWILIO_NUMBER` in the settings file (Step 3).**
 
 Visit [twilio.com](https://www.twilio.com/), and follow the steps to signup for a new account. Please note! Trial accounts do not expire, but they can [reach a limit](https://github.com/datamade/coordinated-entry-screening/issues/31) on the number of messages sent. 
 
@@ -67,7 +69,7 @@ TWILIO_NUMBER = '(312) 624-6268'
 
 `rapidsms-decision-tree` app requires a database for storing information about [messages, answers, and tree states](https://github.com/datamade/rapidsms-decisiontree-app/blob/master/decisiontree/models.py). 
 
-The `data` directory has a dump of the winter 2018 survey. It is in custom archive format: you can restore it locally by running the following. [(Read more about dumping and restoring databases.)](https://github.com/datamade/tutorials/blob/master/Dump-and-restore-Postgres.md)
+The `data` directory has a dump of the winter 2018 survey. It is in custom archive format: you can restore it locally by running the following. [(Read more about dumping and restoring databases.)](https://github.com/datamade/tutorials/blob/master/Dump-and-restore-Postgres.md) 
 
 ```bash
 pg_restore -C -j4 --no-owner data/ces_fall2018.dump | psql
@@ -79,7 +81,9 @@ Create an admin user. Set a username and password when prompted.
 python manage.py createsuperuser
 ```
 
-## Run the tool
+## Run the tool 
+
+#### Text-messaging 
 
 Phew! Congrats on surviving a massive setup. You are nearly ready to run the tool locally. But first, Twilio needs to know about your local version of the CES tool. To make your app reachable, use Ngrok as advised by [the Twilio docs](https://www.twilio.com/docs/sms/quickstart/python#allow-twilio-to-talk-to-your-flask-application). As the docs describe, you will need two terminal windows: one with Ngrok running, the other with CES.
 
@@ -96,7 +100,18 @@ Now, visit Twilio and [find the details about your newly created phone number](h
 
  The big moment! Send a message to the phone number. The CES trigger word depends on the details of your survey, but for testing purposes, just try "ping." Did the app "pong"?
 
-## The survey
+
+#### Web interface
+
+This should be a breeze. Just run, and visit the URL provided in your terminal:
+
+```
+python manage.py runserver
+```
+
+## Data
+
+#### The survey
 
 DataMade and the Corporation for Supportive Housing devised question logic to guide users to resources. The basic survey includes these questions:
 
@@ -108,7 +123,19 @@ DataMade and the Corporation for Supportive Housing devised question logic to gu
 * If you slept in the home of a friend or family member or your own home, is it a stable safe place to stay for the forseeable future?
 * If you slept in the home of a friend or family member or your own home, are you attempting to flee because it is an unsafe setting? 
 
-Decision trees located in the `data` folder visualize how users move from question-to-resource-to-question. We created these using (a free trial of) [LucidChart](https://www.lucidchart.com).
+Decision trees located in the `data/survey_diagrams` folder visualize how users move from question-to-resource-to-question. We created these using (a free trial of) [LucidChart](https://www.lucidchart.com).
+
+#### Trigger codes
+
+The database has three basic versions of the survey: 
+
+1. a survey for people in the city or suburbs (accessed with the keyword "connect"),
+2. a survey for people in the city (accessed with a code, e.g., by texting "0006"),
+3. a survey for people in the suburbs (currently, not in use, but may be in the future). 
+
+We populated the database with location-specific trigger codes using an very simple ETL process. CSH provided us with an Excel document with 90+ city codes, and our `Makefile` ported these codes to the database. This process does not need to be repeated, but it can be, if CSH provides a different spreadsheet in the future. 
+
+See the `data` directory for relevant files. 
 
 ## Team
 
