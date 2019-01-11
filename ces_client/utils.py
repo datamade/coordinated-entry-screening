@@ -66,7 +66,7 @@ class WebRouter(App):
         for t in transition_set:
             clean_answer = re.sub(r'\(\d{1}\)', '', t.answer.helper_text())
 
-            answers.append({'text': clean_answer.replace('Type', 'Click'),
+            answers.append({'text': clean_answer.replace('Type 1', 'Click'),
                             'value': t.answer.answer})
         
         answers.append({'text': 'Goodbye',
