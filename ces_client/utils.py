@@ -1,3 +1,5 @@
+import re
+
 from django.conf import settings
 
 from rapidsms.tests.harness import MockRouter
@@ -62,7 +64,9 @@ class WebRouter(App):
         transition_set = Transition.objects.filter(current_state=state).order_by('answer')
 
         for t in transition_set:
-            answers.append({'text': t.answer.helper_text().replace('Type', 'Click'),
+            clean_answer = re.sub(r'\(\d{1}\)', '', t.answer.helper_text())
+
+            answers.append({'text': clean_answer.replace('Type', 'Click'),
                             'value': t.answer.answer})
         
         answers.append({'text': 'Goodbye',
@@ -83,6 +87,6 @@ class WebRouter(App):
         This function changes the text accordingly.
         '''
         text_with_br = text.replace('\r\n\r\n', '\n').replace('\n', '<br><br>')
-        prepped_text = text_with_br.replace('Type', 'Click')
+        prepped_text = text_with_br.replace('Type 1 or 2.', '')
 
         return prepped_text

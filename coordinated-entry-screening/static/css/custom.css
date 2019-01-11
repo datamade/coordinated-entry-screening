@@ -123,6 +123,17 @@ nav {
     color: #fff;
 }
 
+.card-header a.btn {
+    padding: 4px;
+    color: #fff;
+    border: 1px solid #fff;
+}
+
+.card-header a:hover {
+    color: #fff;
+    text-decoration: none;
+}
+
 .botui-message-content {
     line-height: 1.4;
     max-width: 70%;

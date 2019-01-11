@@ -219,7 +219,7 @@ def web_connection(db):
 texts = [
     ("Hi. \n I am B.E.N.", "Hi. <br><br> I am B.E.N."),
     ("Hi. \r\n\r\n I am B.E.N.", "Hi. <br><br> I am B.E.N."), 
-    ("Type 1, 2, or 3", "Click 1, 2, or 3"), 
+    ("Type 1 or 2.", ""), 
     ("A new type of resource", "A new type of resource"),
 ]
 
