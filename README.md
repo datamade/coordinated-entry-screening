@@ -81,6 +81,25 @@ Create an admin user. Set a username and password when prompted.
 python manage.py createsuperuser
 ```
 
+Note! To restore the database on the server, do the following.
+
+```bash
+ssh ubuntu@connectmenow.org
+
+# drop and create a fresh database
+dropdb -U postgres coordinated-entry-screening
+createdb -U postgres coordinated-entry-screening
+
+# retore the database
+pg_restore -U postgres -C -j4 --no-owner --role=datamade /home/datamade/coordinated-entry-screening-d-<deployment-id>/data/ces_launch.dump | psql -U postgres
+
+# change its owner
+psql -U postgres
+ALTER DATABASE "coordinated-entry-screening" OWNER TO datamade;
+```
+
+If you need to restore the database on the server, after the time of launch, then be sure to preserve the user data in the relevant tables. See the dashboard view for more info.
+
 ## Run the tool 
 
 #### Text-messaging 
