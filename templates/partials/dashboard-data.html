@@ -2,7 +2,7 @@
 
 <div class='row mt-6'>
     <div class='col-12'>
-        <h3>Overview</h3>
+        <h3>Overview of the {{ overview_title }} Tool</h3>
 
         <div class='row'>
             <div class='col p-5 text-center'>
@@ -42,3 +42,29 @@
         <div id="{{type}}-resources-chart" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
     </div>
 </div>
+
+<!-- This div provides information about where users are texting. -->
+{% if type == 'sms' %}
+<div class='row mt-6 mb-5'>
+    <div class='col-12'>
+        <h3>Where are users?</h3>
+        <p>This table shows the number of times a location code has been used.</p>
+        <table class="table">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">Location code</th>
+                <th scope="col">Number of times used</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for tree in survey_trees %}
+            <tr>
+                <td>{{ tree.trigger }}</td>
+                <td>{{ tree.times_used }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+        </table>
+    </div>
+</div>
+{% endif %}
