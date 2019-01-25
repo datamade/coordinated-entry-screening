@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% load static %}
+{% load ces_client_extras %}
+{% block title %} 404 Error {% endblock %}
+
+{% block content %}
+
+<div class='row'>
+    <div class='col-10 offset-1 mb-3 pb-3 text-center'>
+        <h2 class='mt-4'>Oops!</h2>
+        <h4>That page does not exist. Go back home.</h4>
+        <br>
+        <a class="img-fluid mr-0" href="{% url 'index' %}"><img src="{% static 'images/CESlogo.svg' %}" width='100'></a>
+    </div>
+</div>
+
+{% endblock %}
