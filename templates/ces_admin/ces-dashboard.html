@@ -9,24 +9,24 @@
         <div class='row mt-6'>
             <div class='col-12'>
                 
-                <h2><strong>Admin Dashboard</strong></h2>
+                <h1><strong>Admin Dashboard</strong></h1>
                 <p>Welcome to the admin dashboard! Use the buttons to toggle between data about the text-messaging and the web tool.</p>
                 <ul class="nav nav-pills" id="myTab" role="tablist">
-                    <li class="nav-item">
-                        <a class="nav-link active" id="home-tab" data-toggle="tab" href="#text-messaging" role="tab" aria-controls="home" aria-selected="true"><i class="fas fa-phone-square"></i> Text messaging</a>
+                    <li class="nav-item mr-2">
+                        <a class="nav-link active" id="text-messaging-tab" data-toggle="tab" href="#text-messaging" role="tab" aria-controls="home" aria-selected="true"><i class="fas fa-phone-square"></i> Text messaging</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" id="profile-tab" data-toggle="tab" href="#web" role="tab" aria-controls="profile" aria-selected="false"><i class="fas fa-sitemap"></i> Web</a>
+                        <a class="nav-link" id="web-tab" data-toggle="tab" href="#web" role="tab" aria-controls="profile" aria-selected="false"><i class="fas fa-sitemap"></i> Web</a>
                     </li>
                 </ul>
                 <div class="tab-content" id="myTabContent">
                     <!-- Text messaging -->
                     <div class="tab-pane fade show active" id="text-messaging" role="tabpanel" aria-labelledby="text-messaging-tab">
-                        {% include 'partials/dashboard-data.html' with type='sms' open_sessions=sms_open_sessions canceled_sessions=sms_canceled_sessions percentage_canceled=sms_percentage_canceled completed_sessions=sms_completed_sessions percentage_complete=sms_percentage_complete %}
+                        {% include 'partials/dashboard-data.html' with type='sms' overview_title='Text Messaging' open_sessions=sms_open_sessions canceled_sessions=sms_canceled_sessions percentage_canceled=sms_percentage_canceled completed_sessions=sms_completed_sessions percentage_complete=sms_percentage_complete %}
                     </div>
                     <!-- Web -->
                     <div class="tab-pane fade" id="web" role="tabpanel" aria-labelledby="web-tab">
-                        {% include 'partials/dashboard-data.html' with type='web' open_sessions=web_open_sessions canceled_sessions=web_canceled_sessions percentage_canceled=web_percentage_canceled completed_sessions=web_completed_sessions percentage_complete=web_percentage_complete %}
+                        {% include 'partials/dashboard-data.html' with type='web' overview_title='Web' open_sessions=web_open_sessions canceled_sessions=web_canceled_sessions percentage_canceled=web_percentage_canceled completed_sessions=web_completed_sessions percentage_complete=web_percentage_complete %}
                     </div>
                 </div>
             </div>

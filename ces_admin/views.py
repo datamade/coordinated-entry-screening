@@ -36,6 +36,7 @@ class DashboardView(DashboardContextMixin, TemplateView):
         context.update(self.completed_sessions_chart())
         context.update(self.completed_sessions_numbers())
         context.update(self.recommendations())
+        context.update(self.user_locations())
         
         return context
 

@@ -1,9 +1,9 @@
 import datetime
 
 from django.db import connection
-from django.db.models import Q
+from django.db.models import Q, Count
 
-from decisiontree.models import Session
+from decisiontree.models import Session, Tree
 
 from .utils import prepare_data
 
@@ -177,5 +177,16 @@ class DashboardContextMixin(object):
             sms_resources_chart, sms_resources_map = prepare_data(cursor, sms_query, False)
             context['sms_resources_chart'] = sms_resources_chart
             context['sms_resources_map'] = sms_resources_map
+
+        return context
+
+    def user_locations(self):
+        context = {}
+
+        survey_trees = Tree.objects.annotate(times_used=Count('sessions'))\
+                                   .exclude(trigger='connect')\
+                                   .exclude(times_used=0)
+
+        context['survey_trees'] = survey_trees
 
         return context

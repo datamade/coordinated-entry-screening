@@ -17,7 +17,7 @@ body {
 }
 
 h1, h2, h3 {
-    text-transform: uppercase;
+    /*text-transform: uppercase;*/
     font-family: 'Lato', sans-serif;
 }
 
@@ -204,4 +204,19 @@ nav {
 
 .border-btm {
     border-bottom: 2px solid #ebebeb;
+}
+
+.table .thead-dark th {
+    background-color: var(--blue);
+    border-color: var(--blue);
+}
+
+a#text-messaging-tab, a#web-tab {
+    border: 2px solid var(--blue);
+}
+
+a#text-messaging-tab:hover, a#web-tab:hover {
+    color: var(--light-blue);
+    border-color: var(--light-blue);
+    background-color: #fff;
 }
