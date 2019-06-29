@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% load static %}
+{% load ces_client_extras %}
+{% block title %}Connect{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/botui.min.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/botui-theme-default.css' %}" />
+{% endblock %}
+
+{% block content %}
+<div class='row'>
+    <div class='col-10 offset-1 mt-5 mb-3 pb-3'>
+        <div class='row mb-3'>
+            <div class='col-lg-2 pr-0'>
+                <a class="img-fluid float-left mr-0" href="{% url 'index' %}"><img src="{% static 'images/CESlogo.svg' %}" width='100'></a>
+            </div>
+            <div class='col'>
+                <h3 class='mt-4'>Connect to End Homelessness</h3>
+                <h4>A unified community response</h4>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class='row'>
+    <div class='col-10 offset-1 mb-3 pb-3'>
+        <h5><strong>Contact Us</strong></h5>
+        <p>Direct questions and comments about this site to <a href="mailto:chicagoces@csh.org">chicagoces@csh.org</a>.</p>
+    </div>
+</div>
+
+{% endblock %}

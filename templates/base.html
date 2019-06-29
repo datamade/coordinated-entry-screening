@@ -24,13 +24,13 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item pr-4">
-                    <a class="nav-link" href="#">About</a>
+                    <a class="nav-link" href="{% url 'index' %}">Connect</a>
                 </li>
                 <li class="nav-item pr-4">
-                    <a class="nav-link" href="#">Contact Us</a>
+                    <a class="nav-link" href="{% url 'about' %}">About</a>
                 </li>
                 <li class="nav-item pr-4">
-                    <a class="nav-link" href="#">Useful Links</a>
+                    <a class="nav-link" href="{% url 'contact' %}">Contact Us</a>
                 </li>
                 {% if request.user.is_authenticated %}
                 <li class="nav-item pl-4">
