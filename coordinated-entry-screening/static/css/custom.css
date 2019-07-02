@@ -62,27 +62,12 @@ nav {
     font-family: 'Lato', sans-serif;
 }
 
-.navbar-expand-lg .navbar-nav .nav-link {
+.navbar-expand .navbar-nav .nav-link {
     color: var(--blue);
     font-weight: 800;
     font-size: 1.2em;
 }
 
-.navbar-toggler {
-    border: 1px solid var(--blue);
-    background-color: var(--blue);
-}
-
-.fa-bars {
-    color: #fff;
-}
-
-.footer {
-    background-color: var(--blue);
-    line-height: 60px;
-    position: absolute;
-    bottom: 0;
-}
 
 /* Chatbot */
 .bot-msg, .botui-actions-buttons, .botui-message-content, .card-header {
@@ -189,6 +174,29 @@ nav {
     button.botui-actions-buttons-button {
         margin-top: 5px;
         margin-bottom: 5px;
+    }
+}
+
+/* About */
+.font-weight-600 {
+    font-weight: 600;
+}
+
+.img-width-sm {
+    width: 110px;
+}
+
+.img-width-md {
+    width: 190px;
+}
+
+@media (max-width: 767px) {
+    .img-width-sm {
+        width: 60px;
+    }
+
+    .img-width-md {
+        width: 100px;
     }
 }
 
