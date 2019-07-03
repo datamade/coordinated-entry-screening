@@ -190,7 +190,7 @@ nav {
     width: 190px;
 }
 
-@media (max-width: 767px) {
+/*@media (max-width: 767px) {
     .img-width-sm {
         width: 60px;
     }
@@ -198,7 +198,7 @@ nav {
     .img-width-md {
         width: 100px;
     }
-}
+}*/
 
 /* Dashboard charts */
 .highcharts-tooltip span {

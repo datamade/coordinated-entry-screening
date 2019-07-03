@@ -35,14 +35,14 @@
         <h5 class='mt-5 font-weight-bold'>Shelter Access In Chicago</h5>
         <p>Please visit any hospital emergency room or police station in Chicago, or call 311 and request transportation to shelter.</p>
         <div class='row'>
-            <div class='col'>
+            <div class='col-12 col-md-6 mt-2'>
                 <i class="fas fa-user fa-lg"></i><br> 
                 <span class='font-weight-600'>Single individuals can request shelter in person at the Chicago Garfield Service Center.</span><br> 
                 10 S Kedzie Ave<br>
                 Chicago, IL 60612<br>
                 Monday through Friday, 9am – 5pm
             </div>
-            <div class='col'>
+            <div class='col-12 col-md-6 mt-2'>
                 <i class="fas fa-users fa-lg"></i><br>
                 <span class='font-weight-600'>Families with children can request shelter at the Salvation Army Shield of Hope at any time.</span><br> 
                 924 N Christiana Ave<br>
@@ -68,9 +68,15 @@
 <div class='row'>
     <div class='col-8 offset-2'>
         <div class='row'>
-            <div class='col pt-3'><a class="img-fluid float-left mr-0" href="https://www.csh.org" target="_blank"><img class="img-width-sm" src="{% static 'images/CSH_Logo.svg' %}"></a></div>
-            <div class='col'><a class="img-fluid float-left mr-0" href="{% url 'index' %}"><img class="img-width-sm" src="{% static 'images/ben-icon-03.svg' %}" width='100'></a></div>
-            <div class='col pt-3'><a class="img-fluid float-left mr-0" href="https://datamade.us/" target="_blank"><img class="img-width-md" src="{% static 'images/datamade_logo.png' %}" width='180'></a></div>
+            <div class='col-12 col-md-4 pt-3 mb-5 text-center'>
+                <a class="img-fluid mr-0" href="https://www.csh.org" target="_blank"><img class="img-width-sm" src="{% static 'images/CSH_Logo.svg' %}"></a>
+            </div>
+            <div class='col-12 col-md-4 mb-5 text-center'>
+                <a class="img-fluid mr-0" href="{% url 'index' %}"><img class="img-width-sm" src="{% static 'images/ben-icon-03.svg' %}" width='100'></a>
+            </div>
+            <div class='col-12 col-md-4 pt-3 mb-5 text-center'>
+                <a class="img-fluid mr-0" href="https://datamade.us/" target="_blank"><img class="img-width-md" src="{% static 'images/datamade_logo.png' %}" width='180'></a>
+            </div>
         </div>
     </div>
 </div>
