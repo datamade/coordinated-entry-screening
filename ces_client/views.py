@@ -44,3 +44,4 @@ class IndexView(View):
             json.dumps({"text": message_from_ben, 'answers': answers}),
             content_type="application/json",
         )
+

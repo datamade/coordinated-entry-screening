@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+{% load static %}
+{% load ces_client_extras %}
+{% block title %}About{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/botui.min.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/botui-theme-default.css' %}" />
+{% endblock %}
+
+{% block content %}
+<div class='row'>
+    <div class='col-10 offset-1 mt-5 mb-3 pb-3'>
+        <div class='row mb-3'>
+            <div class='col-lg-2 pr-0'>
+                <a class="img-fluid float-left mr-0" href="{% url 'index' %}"><img src="{% static 'images/CESlogo.svg' %}" width='100'></a>
+            </div>
+            <div class='col'>
+                <h3 class='mt-4'>Connect to End Homelessness</h3>
+                <h4>A unified community response</h4>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class='row'>
+    <div class='col-10 offset-1 mb-3 pb-3'>
+        <h5 class="font-weight-bold">About Coordinated Entry</h5>
+        <p>Coordinated Entry is the front door to connect people facing homelessness to housing and supports in an accessible, equitable, transparent manner. This allows all partners to collaborate to improve access and outcomes for people without permanent housing while delivering trauma informed services.</p>
+        <p>People facing homelessness are asked to complete a Housing Assessment and linked to housing, if eligible, as opportunities become available.</p>
+
+        <h5 class='mt-5 font-weight-bold'>Shelter Access in Cook County Suburbs</h5>
+        <p>View shelter options and next steps <a href="http://www.suburbancook.org/emergency" target="_blank">by clicking here</a>.</p>
+
+        <h5 class='mt-5 font-weight-bold'>Shelter Access In Chicago</h5>
+        <p>Please visit any hospital emergency room or police station in Chicago, or call 311 and request transportation to shelter.</p>
+        <div class='row'>
+            <div class='col-12 col-md-6 mt-2'>
+                <i class="fas fa-user fa-lg"></i><br> 
+                <span class='font-weight-600'>Single individuals can request shelter in person at the Chicago Garfield Service Center.</span><br> 
+                10 S Kedzie Ave<br>
+                Chicago, IL 60612<br>
+                Monday through Friday, 9am – 5pm
+            </div>
+            <div class='col-12 col-md-6 mt-2'>
+                <i class="fas fa-users fa-lg"></i><br>
+                <span class='font-weight-600'>Families with children can request shelter at the Salvation Army Shield of Hope at any time.</span><br> 
+                924 N Christiana Ave<br>
+                Chicago, IL 60651
+            </div>
+        </div>
+
+        <h5 class='mt-5 font-weight-bold'>Useful Links</h5>
+        <p><a href="https://www.csh.org/chicagoces" target="_blank">Chicago Coordinated Entry System</a></p>
+        <p><a href="https://allchicago.org" target="_blank">All Chicago: Making Homelessness History</a></p>
+        <p><a href="http://myentrypoint.org/" target="_blank">Suburban Coordinated Entry System</a></p>
+        <p><a href="http://www.suburbancook.org/" target="_blank">Alliance to End Homelessness in Suburban Cook County</a></p>
+
+        <h5 class="mt-5 mb-3 font-weight-bold">About the Bravely Engineered Navigator (B.E.N.)</h5>
+        <div class='row'>
+            <div class='col'>
+                <p>B.E.N. represents a robot who knows a lot about the homeless experience. He helps personalize the survey-taking process. <a href="https://datamade.us/" target="_blank">DataMade (a civic technology company in Chicago)</a> designed B.E.N. and "Connect to End Homelessness" in partnership with the <a href="https://www.csh.org" target="_blank">Corporation for Supportive Housing (a non-profit that advances supportive housing solutions)</a>.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class='row'>
+    <div class='col-8 offset-2'>
+        <div class='row'>
+            <div class='col-12 col-md-4 pt-3 mb-5 text-center'>
+                <a class="img-fluid mr-0" href="https://www.csh.org" target="_blank"><img class="img-width-sm" src="{% static 'images/CSH_Logo.svg' %}"></a>
+            </div>
+            <div class='col-12 col-md-4 mb-5 text-center'>
+                <a class="img-fluid mr-0" href="{% url 'index' %}"><img class="img-width-sm" src="{% static 'images/ben-icon-03.svg' %}" width='100'></a>
+            </div>
+            <div class='col-12 col-md-4 pt-3 mb-5 text-center'>
+                <a class="img-fluid mr-0" href="https://datamade.us/" target="_blank"><img class="img-width-md" src="{% static 'images/datamade_logo.png' %}" width='180'></a>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
