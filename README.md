@@ -69,7 +69,7 @@ TWILIO_NUMBER = '(312) 624-6268'
 
 `rapidsms-decision-tree` app requires a database for storing information about [messages, answers, and tree states](https://github.com/datamade/rapidsms-decisiontree-app/blob/master/decisiontree/models.py). 
 
-The `data` directory has a dump of the database used at the time of launching. It is in custom archive format: you can restore it locally by running the following. [(Read more about dumping and restoring databases.)](https://github.com/datamade/tutorials/blob/master/Dump-and-restore-Postgres.md) 
+The `data` directory has a dump of the database used at the time of launching. It is in custom archive format: you can restore it locally by running the following. [(Read more about dumping and restoring databases.)](https://github.com/datamade/how-to/blob/master/postgres/Dump-and-restore-Postgres.md) 
 
 ```bash
 pg_restore -C -j4 --no-owner data/ces_launch.dump | psql
